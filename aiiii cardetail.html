@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2024 Toyota Camry XSE | AutoLuxe</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700;800&display=swap');
+
+        /* CSS Variables */
+        :root {
+            --bg-base: #08080a;
+            --bg-glass: rgba(255, 255, 255, 0.03);
+            --bg-glass-hover: rgba(255, 255, 255, 0.06);
+            --border-glass: rgba(255, 255, 255, 0.08);
+            --border-highlight: rgba(255, 255, 255, 0.15);
+            --accent-neon: #00f3ff;
+            --accent-neon-glow: rgba(0, 243, 255, 0.5);
+            --text-primary: #ffffff;
+            --text-secondary: #94949e;
+            --font-main: 'Outfit', sans-serif;
+            --transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        /* Reset & Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg-base);
+            color: var(--text-primary);
+            font-family: var(--font-main);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        ::selection {
+            background: var(--accent-neon);
+            color: #000;
+        }
+
+        /* Minimalist Header */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 20px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            background: rgba(8, 8, 10, 0.4);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border-glass);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            letter-spacing: 2px;
+            color: var(--text-primary);
+            text-decoration: none;
+            text-transform: uppercase;
+        }
+
+        .logo span {
+            color: var(--accent-neon);
+            text-shadow: 0 0 10px var(--accent-neon-glow);
+        }
+
+        nav {
+            display: flex;
+            gap: 30px;
+        }
+
+        nav a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        nav a:hover {
+            color: var(--text-primary);
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: var(--accent-neon);
+            transition: var(--transition);
+            box-shadow: 0 0 8px var(--accent-neon-glow);
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        /* Hero Section */
+        .hero {
+            position: relative;
+            width: 100vw;
+            height: 70vh;
+            display: flex;
+            align-items: flex-end;
+            background: url('https://images.unsplash.com/photo-1621007947382-bb3c3994e3fb?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80') center/cover no-repeat;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, var(--bg-base) 0%, transparent 50%, rgba(8,8,10,0.6) 100%);
+        }
+
+        /* Main Content Container */
+        .container {
+            max-width: 1400px;
+            margin: -80px auto 0;
+            padding: 0 5%;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Header Info */
+        .car-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 40px;
+        }
+
+        .car-title-wrapper h1 {
+            font-size: 4rem;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 10px;
+            background: linear-gradient(to right, #fff, #94949e);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .car-title-wrapper p {
+            font-size: 1.2rem;
+            color: var(--accent-neon);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+
+        .price-tag {
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        /* Bento Box Grid */
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-auto-rows: 180px;
+            gap: 24px;
+            margin-bottom: 40px;
+        }
+
+        .bento-item {
+            background: var(--bg-glass);
+            border: 1px solid var(--border-glass);
+            border-radius: 24px;
+            padding: 30px;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .bento-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(to right, transparent, rgba(255,255,255,0.05), transparent);
+            transform: skewX(-25deg);
+            transition: var(--transition);
+        }
+
+        .bento-item:hover {
+            transform: translateY(-5px);
+            background: var(--bg-glass-hover);
+            border-color: var(--border-highlight);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.5);
+        }
+
+        .bento-item:hover::before {
+            left: 200%;
+            transition: 0.8s ease-in-out;
+        }
+
+        .bento-label {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--text-secondary);
+            margin-bottom: 12px;
+        }
+
+        .bento-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        /* Grid Placements */
+        .item-brand {
+            grid-column: span 2;
+            background: radial-gradient(circle at top right, rgba(0, 243, 255, 0.1), transparent 70%), var(--bg-glass);
+        }
+
+        .item-brand .bento-value {
+            font-size: 2.5rem;
+        }
+
+        .item-color {
+            grid-row: span 2;
+            justify-content: flex-end;
+        }
+        
+        .color-swatch {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(145deg, #1f1f1f, #000000);
+            border: 2px solid #333;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.6);
+        }
+
+        .item-description {
+            grid-column: span 3;
+            grid-row: span 2;
+            justify-content: flex-start;
+        }
+
+        .item-description .bento-value {
+            font-size: 1.1rem;
+            font-weight: 300;
+            color: #d1d1d6;
+            line-height: 1.8;
+            margin-top: 10px;
+        }
+
+        /* Action Area */
+        .action-area {
+            display: flex;
+            justify-content: center;
+            margin: 60px 0 100px;
+        }
+
+        .btn-contact {
+            background: transparent;
+            color: var(--accent-neon);
+            font-family: var(--font-main);
+            font-size: 1.2rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            padding: 20px 50px;
+            border: 1px solid var(--accent-neon);
+            border-radius: 50px;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transition: var(--transition);
+            box-shadow: 0 0 20px rgba(0, 243, 255, 0.1), inset 0 0 10px rgba(0, 243, 255, 0.1);
+        }
+
+        .btn-contact:hover {
+            background: var(--accent-neon);
+            color: var(--bg-base);
+            box-shadow: 0 0 30px var(--accent-neon-glow), inset 0 0 20px rgba(255, 255, 255, 0.5);
+            text-shadow: none;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .car-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 20px;
+            }
+            .bento-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .item-brand, .item-description {
+                grid-column: span 2;
+            }
+            .item-color {
+                grid-row: span 1;
+            }
+            .color-swatch {
+                width: 40px;
+                height: 40px;
+                margin-bottom: 10px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            nav {
+                display: none; /* In a real scenario, replaced with a hamburger menu */
+            }
+            .hero {
+                height: 50vh;
+            }
+            .car-title-wrapper h1 {
+                font-size: 2.5rem;
+            }
+            .price-tag {
+                font-size: 2.5rem;
+            }
+            .bento-grid {
+                grid-template-columns: 1fr;
+                grid-auto-rows: auto;
+            }
+            .item-brand, .item-description {
+                grid-column: span 1;
+            }
+            .item-description {
+                grid-row: span 1;
+            }
+            .bento-item {
+                padding: 25px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="#" class="logo">Auto<span>Luxe</span></a>
+        <nav>
+            <a href="#">Home</a>
+            <a href="#">Search</a>
+            <a href="#">Seller Login</a>
+            <a href="#">Upload Car</a>
+        </nav>
+    </header>
+
+    <div class="hero"></div>
+
+    <main class="container">
+        
+        <div class="car-header">
+            <div class="car-title-wrapper">
+                <p>Premium Certified Used</p>
+                <h1>2024 Toyota Camry</h1>
+            </div>
+            <div class="price-tag">$32,450</div>
+        </div>
+
+        <div class="bento-grid">
+            
+            <div class="bento-item item-brand">
+                <div class="bento-label">Make & Trim</div>
+                <div class="bento-value">Toyota Camry XSE</div>
+            </div>
+
+            <div class="bento-item item-year">
+                <div class="bento-label">Year</div>
+                <div class="bento-value">2024</div>
+            </div>
+
+            <div class="bento-item item-color">
+                <div class="color-swatch"></div>
+                <div class="bento-label">Exterior</div>
+                <div class="bento-value">Midnight Black</div>
+            </div>
+
+            <div class="bento-item item-mileage">
+                <div class="bento-label">Mileage</div>
+                <div class="bento-value">12,450 mi</div>
+            </div>
+
+            <div class="bento-item item-location">
+                <div class="bento-label">Location</div>
+                <div class="bento-value">Beverly Hills, CA</div>
+            </div>
+
+            <div class="bento-item item-description">
+                <div class="bento-label">Seller Notes</div>
+                <div class="bento-value">
+                    Immaculate condition 2024 Toyota Camry XSE V6. This vehicle merges reliable performance with a surprisingly aggressive, premium aesthetic. It features a panoramic glass roof, sport-tuned suspension, and a custom Cockpit Red leather interior. Single owner, garage kept, with full maintenance records available. Fully detailed and ready for its next driver.
+                </div>
+            </div>
+            
+        </div>
+
+        <div class="action-area">
+            <button class="btn-contact">Contact Seller</button>
+        </div>
+
+    </main>
+
+</body>
+</html>
