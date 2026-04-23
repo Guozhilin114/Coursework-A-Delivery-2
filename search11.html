@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AutoShow - Luxury Car Showcase</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+        }
+
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --dark-bg: #0f172a;
+            --dark-card: #1e293b;
+            --dark-surface: #334155;
+            --light-text: #f1f5f9;
+            --light-text-secondary: #cbd5e1;
+            --accent-red: #ef4444;
+            --accent-green: #10b981;
+            --accent-blue: #3b82f6;
+            --glass-bg: rgba(30, 41, 59, 0.7);
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
+
+        body {
+            background: linear-gradient(135deg, #0a0f1f 0%, #1a1f3a 100%);
+            color: var(--light-text);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Styles */
+        header {
+            padding: 20px 0;
+            border-bottom: 1px solid var(--glass-border);
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--light-text);
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            color: var(--primary);
+            font-size: 2.2rem;
+        }
+
+        /* Search Bar Styles */
+        .search-bar {
+            flex-grow: 1;
+            max-width: 600px;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 15px 20px 15px 50px;
+            border-radius: 12px;
+            border: 1px solid var(--glass-border);
+            background: rgba(15, 23, 42, 0.7);
+            color: var(--light-text);
+            font-size: 1rem;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--light-text-secondary);
+        }
+
+        /* Main Content Layout */
+        .main-content {
+            display: flex;
+            gap: 30px;
+            padding: 30px 0;
+        }
+
+        /* Filter Sidebar */
+        .filter-sidebar {
+            width: 280px;
+            flex-shrink: 0;
+            background: var(--glass-bg);
+            border-radius: 16px;
+            padding: 25px;
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(10px);
+            height: fit-content;
+        }
+
+        .filter-sidebar h2 {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .filter-group {
+            margin-bottom: 25px;
+        }
+
+        .filter-group h3 {
+            font-size: 1.1rem;
+            margin-bottom: 12px;
+            color: var(--light-text-secondary);
+        }
+
+        .filter-select {
+            width: 100%;
+            padding: 12px 15px;
+            border-radius: 8px;
+            border: 1px solid var(--glass-border);
+            background: rgba(15, 23, 42, 0.7);
+            color: var(--light-text);
+            font-size: 1rem;
+            cursor: pointer;
+            backdrop-filter: blur(5px);
+        }
+
+        .filter-select:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .price-range {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .price-range input {
+            flex-grow: 1;
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid var(--glass-border);
+            background: rgba(15, 23, 42, 0.7);
+            color: var(--light-text);
+        }
+
+        .filter-button {
+            width: 100%;
+            padding: 14px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+
+        .filter-button:hover {
+            background: var(--primary-dark);
+        }
+
+        /* Car Cards Grid */
+        .cars-grid {
+            flex-grow: 1;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 25px;
+        }
+
+        .car-card {
+            background: var(--dark-card);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            border: 1px solid var(--glass-border);
+            position: relative;
+        }
+
+        .car-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .car-image-container {
+            height: 220px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .car-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .car-card:hover .car-image {
+            transform: scale(1.05);
+        }
+
+        .car-color-bar {
+            height: 6px;
+            width: 100%;
+        }
+
+        .car-info {
+            padding: 20px;
+        }
+
+        .car-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+
+        .car-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+        }
+
+        .car-price {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .car-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .car-tag {
+            background: var(--dark-surface);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .car-details {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .detail-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .detail-label {
+            font-size: 0.85rem;
+            color: var(--light-text-secondary);
+            margin-bottom: 4px;
+        }
+
+        .detail-value {
+            font-weight: 600;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .cars-grid {
+                grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            }
+        }
+
+        @media (max-width: 992px) {
+            .main-content {
+                flex-direction: column;
+            }
+            
+            .filter-sidebar {
+                width: 100%;
+            }
+            
+            .cars-grid {
+                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .search-bar {
+                max-width: 100%;
+            }
+            
+            .cars-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 15px;
+            }
+            
+            .car-details {
+                grid-template-columns: 1fr;
+            }
+            
+            .filter-sidebar {
+                padding: 20px;
+            }
+        }
+
+        /* Footer Styles */
+        footer {
+            margin-top: 50px;
+            padding: 30px 0;
+            text-align: center;
+            border-top: 1px solid var(--glass-border);
+            color: var(--light-text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .footer-links a {
+            color: var(--light-text-secondary);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary);
+        }
+
+        /* No Results Message */
+        .no-results {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--light-text-secondary);
+        }
+
+        .no-results i {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            color: var(--dark-surface);
+        }
+
+        /* Brand Badge */
+        .brand-badge {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        /* Reset Button */
+        .reset-filters {
+            background: transparent;
+            color: var(--light-text-secondary);
+            border: 1px solid var(--glass-border);
+            margin-top: 15px;
+        }
+
+        .reset-filters:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <a href="#" class="logo">
+                    <i class="fas fa-car logo-icon"></i>
+                    AutoShow
+                </a>
+                
+                <div class="search-bar">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" class="search-input" placeholder="Search by brand, model, or features...">
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <main class="container">
+        <div class="main-content">
+            <!-- Filter Sidebar -->
+            <aside class="filter-sidebar">
+                <h2><i class="fas fa-filter"></i> Filter Cars</h2>
+                
+                <div class="filter-group">
+                    <h3>Brand</h3>
+                    <select class="filter-select" id="brand-filter">
+                        <option value="all">All Brands</option>
+                        <option value="toyota">Toyota</option>
+                        <option value="bmw">BMW</option>
+                        <option value="mercedes">Mercedes-Benz</option>
+                        <option value="audi">Audi</option>
+                        <option value="tesla">Tesla</option>
+                        <option value="ford">Ford</option>
+                        <option value="honda">Honda</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <h3>Price Range</h3>
+                    <select class="filter-select" id="price-filter">
+                        <option value="all">All Prices</option>
+                        <option value="under-40k">Under $40,000</option>
+                        <option value="40k-70k">$40,000 - $70,000</option>
+                        <option value="70k-100k">$70,000 - $100,000</option>
+                        <option value="over-100k">Over $100,000</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <h3>Year</h3>
+                    <select class="filter-select" id="year-filter">
+                        <option value="all">All Years</option>
+                        <option value="2024">2024</option>
+                        <option value="2023">2023</option>
+                        <option value="2022">2022</option>
+                        <option value="2021">2021</option>
+                        <option value="2020">2020</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <h3>Drivetrain</h3>
+                    <select class="filter-select" id="drivetrain-filter">
+                        <option value="all">All Drivetrains</option>
+                        <option value="awd">All-Wheel Drive (AWD)</option>
+                        <option value="fwd">Front-Wheel Drive (FWD)</option>
+                        <option value="rwd">Rear-Wheel Drive (RWD)</option>
+                        <option value="4wd">Four-Wheel Drive (4WD)</option>
+                    </select>
+                </div>
+                
+                <button class="filter-button" id="apply-filters">
+                    <i class="fas fa-check"></i> Apply Filters
+                </button>
+                
+                <button class="filter-button reset-filters" id="reset-filters">
+                    <i class="fas fa-redo"></i> Reset Filters
+                </button>
+            </aside>
+            
+            <!-- Car Cards Grid -->
+            <section class="cars-grid" id="cars-grid">
+                <!-- Car cards will be dynamically generated by JavaScript -->
+            </section>
+        </div>
+    </main>
+    
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div>© 2023 AutoShow. All rights reserved.</div>
+                <div class="footer-links">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                    <a href="#">Contact Us</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Car data
+        const carsData = [
+            {
+                id: 1,
+                brand: "toyota",
+                name: "2024 Toyota Camry XSE",
+                price: "$32,450",
+                year: "2024",
+                drivetrain: "FWD",
+                mileage: "12,450 mi",
+                location: "Beverly Hills, CA",
+                trim: "XSE",
+                color: "Midnight Black",
+                colorCode: "#1e293b",
+                image: "https://images.unsplash.com/photo-1621007947382-bb3c3994e3fb?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+            },
+            {
+                id: 2,
+                brand: "bmw",
+                name: "2023 BMW M4 Competition",
+                price: "$82,900",
+                year: "2023",
+                drivetrain: "RWD",
+                mileage: "6,200 mi",
+                location: "Miami, FL",
+                trim: "Competition",
+                color: "Toronto Red",
+                colorCode: "#ef4444",
+                image: "https://images.unsplash.com/photo-1555212697-194d92e28bcc?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+            },
+            {
+                id: 3,
+                brand: "mercedes",
+                name: "2023 Mercedes-Benz E-Class",
+                price: "$68,400",
+                year: "2023",
+                drivetrain: "AWD",
+                mileage: "8,750 mi",
+                location: "New York, NY",
+                trim: "AMG Line",
+                color: "Iridium Silver",
+                colorCode: "#cbd5e1",
+                image: "https://images.unsplash.com/photo-1563720223480-0-2b9b76b5617?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+            },
+            {
+                id: 4,
+                brand: "audi",
+                name: "2024 Audi A6 Premium Plus",
+                price: "$59,900",
+                year: "2024",
+                drivetrain: "AWD",
+                mileage: "3,200 mi",
+                location: "Chicago, IL",
+                trim: "Premium Plus",
+                color: "Navarra Blue",
+                colorCode: "#3b82f6",
+                image: "https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+            },
+            {
+                id: 5,
+                brand: "tesla",
+                name: "2023 Tesla Model 3",
+                price: "$42,900",
+                year: "2023",
+                drivetrain: "AWD",
+                mileage: "5,100 mi",
+                location: "Seattle, WA",
+                trim: "Long Range",
+                color: "Pearl White",
+                colorCode: "#f8fafc",
+                image: "https://images.unsplash.com/photo-1560958089-b8a1929cea89?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+            },
+            {
+                id: 6,
+                brand: "bmw",
+                name: "2024 BMW X5 xDrive40i",
+                price: "$72,500",
+                year: "2024",
+                drivetrain: "AWD",
+                mileage: "2,500 mi",
+                location: "Denver, CO",
+                trim: "xDrive40i",
+                color: "Carbon Black",
+                colorCode: "#64748b",
+                image: "https://images.unsplash.com/photo-1580273916550-e323be2ae537?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+            },
+            {
+                id: 7,
+                brand: "ford",
+                name: "2023 Ford Mustang GT",
+                price: "$48,200",
+                year: "2023",
+                drivetrain: "RWD",
+                mileage: "7,300 mi",
+                location: "Austin, TX",
+                trim: "GT Premium",
+                color: "Race Red",
+                colorCode: "#dc2626",
+                image: "https://images.unsplash.com/photo-1580273916550-e323be2ae537?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+            },
+            {
+                id: 8,
+                brand: "honda",
+                name: "2024 Honda Civic Type R",
+                price: "$44,800",
+                year: "2024",
+                drivetrain: "FWD",
+                mileage: "1,200 mi",
+                location: "Los Angeles, CA",
+                trim: "Type R",
+                color: "Championship White",
+                colorCode: "#f8fafc",
+                image: "https://images.unsplash.com/photo-1593941707882-a5bba5338fe2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+            },
+            {
+                id: 9,
+                brand: "audi",
+                name: "2022 Audi Q7 Prestige",
+                price: "$65,800",
+                year: "2022",
+                drivetrain: "AWD",
+                mileage: "18,400 mi",
+                location: "Phoenix, AZ",
+                trim: "Prestige",
+                color: "Glacier White",
+                colorCode: "#f1f5f9",
+                image: "https://images.unsplash.com/photo-1517524206127-48bbd363f3d7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+            },
+            {
+                id: 10,
+                brand: "tesla",
+                name: "2024 Tesla Model Y",
+                price: "$54,900",
+                year: "2024",
+                drivetrain: "AWD",
+                mileage: "0 mi",
+                location: "San Francisco, CA",
+                trim: "Long Range",
+                color: "Deep Blue Metallic",
+                colorCode: "#1e40af",
+                image: "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+            }
+        ];
+
+        // Initialize car grid
+        function renderCars(cars) {
+            const carsGrid = document.getElementById('cars-grid');
+            carsGrid.innerHTML = '';
+            
+            if (cars.length === 0) {
+                carsGrid.innerHTML = `
+                    <div class="no-results">
+                        <i class="fas fa-car-crash"></i>
+                        <h3>No matching vehicles found</h3>
+                        <p>Try adjusting your filters to see more results</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            cars.forEach(car => {
+                const carElement = document.createElement('div');
+                carElement.className = 'car-card';
+                carElement.dataset.brand = car.brand;
+                carElement.dataset.price = car.price.replace('$', '').replace(',', '');
+                carElement.dataset.year = car.year;
+                carElement.dataset.drivetrain = car.drivetrain.toLowerCase();
+                
+                carElement.innerHTML = `
+                    <div class="brand-badge">
+                        <i class="fas fa-car"></i>
+                        ${car.brand.charAt(0).toUpperCase() + car.brand.slice(1)}
+                    </div>
+                    <div class="car-image-container">
+                        <img src="${car.image}" alt="${car.name}" class="car-image">
+                    </div>
+                    <div class="car-color-bar" style="background-color: ${car.colorCode};"></div>
+                    <div class="car-info">
+                        <div class="car-header">
+                            <h3 class="car-title">${car.name}</h3>
+                            <div class="car-price">${car.price}</div>
+                        </div>
+                        <div class="car-tags">
+                            <div class="car-tag">
+                                <i class="fas fa-calendar-alt"></i>
+                                ${car.year}
+                            </div>
+                            <div class="car-tag">
+                                <i class="fas fa-tachometer-alt"></i>
+                                ${car.mileage}
+                            </div>
+                            <div class="car-tag">
+                                <i class="fas fa-map-marker-alt"></i>
+                                ${car.location}
+                            </div>
+                        </div>
+                        <div class="car-details">
+                            <div class="detail-item">
+                                <span class="detail-label">Drivetrain</span>
+                                <span class="detail-value">${car.drivetrain}</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Trim</span>
+                                <span class="detail-value">${car.trim}</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Color</span>
+                                <span class="detail-value">${car.color}</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Stock #</span>
+                                <span class="detail-value">#${car.id.toString().padStart(4, '0')}</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                carsGrid.appendChild(carElement);
+            });
+        }
+
+        // Filter functionality
+        function filterCars() {
+            const brandFilter = document.getElementById('brand-filter').value;
+            const priceFilter = document.getElementById('price-filter').value;
+            const yearFilter = document.getElementById('year-filter').value;
+            const drivetrainFilter = document.getElementById('drivetrain-filter').value;
+            
+            const filteredCars = carsData.filter(car => {
+                // Brand filter
+                if (brandFilter !== 'all' && car.brand !== brandFilter) {
+                    return false;
+                }
+                
+                // Price filter
+                const price = parseInt(car.price.replace('$', '').replace(',', ''));
+                if (priceFilter !== 'all') {
+                    if (priceFilter === 'under-40k' && price >= 40000) return false;
+                    if (priceFilter === '40k-70k' && (price < 40000 || price > 70000)) return false;
+                    if (priceFilter === '70k-100k' && (price < 70000 || price > 100000)) return false;
+                    if (priceFilter === 'over-100k' && price <= 100000) return false;
+                }
+                
+                // Year filter
+                if (yearFilter !== 'all' && car.year !== yearFilter) {
+                    return false;
+                }
+                
+                // Drivetrain filter
+                if (drivetrainFilter !== 'all' && car.drivetrain.toLowerCase() !== drivetrainFilter.toLowerCase()) {
+                    return false;
+                }
+                
+                return true;
+            });
+            
+            renderCars(filteredCars);
+        }
+
+        // Search functionality
+        function setupSearch() {
+            const searchInput = document.querySelector('.search-input');
+            searchInput.addEventListener('input', function() {
+                const searchTerm = this.value.toLowerCase();
+                
+                if (searchTerm.length < 2) {
+                    // If search term is too short, show all cars
+                    renderCars(carsData);
+                    return;
+                }
+                
+                const filteredCars = carsData.filter(car => {
+                    return car.name.toLowerCase().includes(searchTerm) ||
+                           car.trim.toLowerCase().includes(searchTerm) ||
+                           car.color.toLowerCase().includes(searchTerm) ||
+                           car.location.toLowerCase().includes(searchTerm) ||
+                           car.brand.toLowerCase().includes(searchTerm);
+                });
+                
+                renderCars(filteredCars);
+            });
+        }
+
+        // Card hover image zoom effect
+        function setupCardHoverEffects() {
+            document.addEventListener('mouseover', function(e) {
+                const card = e.target.closest('.car-card');
+                if (!card) return;
+                
+                const img = card.querySelector('.car-image');
+                if (!img) return;
+                
+                // Add zoom effect
+                img.style.transform = 'scale(1.05)';
+            });
+            
+            document.addEventListener('mouseout', function(e) {
+                const card = e.target.closest('.car-card');
+                if (!card) return;
+                
+                const img = card.querySelector('.car-image');
+                if (!img) return;
+                
+                // Remove zoom effect
+                img.style.transform = 'scale(1)';
+            });
+        }
+
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initial render of all cars
+            renderCars(carsData);
+            
+            // Setup filter functionality
+            document.getElementById('apply-filters').addEventListener('click', filterCars);
+            
+            // Setup reset filters functionality
+            document.getElementById('reset-filters').addEventListener('click', function() {
+                document.getElementById('brand-filter').value = 'all';
+                document.getElementById('price-filter').value = 'all';
+                document.getElementById('year-filter').value = 'all';
+                document.getElementById('drivetrain-filter').value = 'all';
+                document.querySelector('.search-input').value = '';
+                renderCars(carsData);
+            });
+            
+            // Setup search functionality
+            setupSearch();
+            
+            // Setup card hover effects
+            setupCardHoverEffects();
+            
+            // Add auto-filter on filter change
+            const filterSelects = document.querySelectorAll('.filter-select');
+            filterSelects.forEach(select => {
+                select.addEventListener('change', filterCars);
+            });
+        });
+    </script>
+</body>
+</html>
