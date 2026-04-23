@@ -1,0 +1,1113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - Lingshui Used Car Market</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        :root {
+            --primary: #0a0a0f;
+            --secondary: #141422;
+            --accent: #3498db;
+            --accent-light: #5dade2;
+            --accent-dark: #2980b9;
+            --text: #ffffff;
+            --text-secondary: #b0c4d4;
+            --border: #2c3e50;
+            --card-bg: rgba(20, 20, 34, 0.9);
+            --gradient-primary: linear-gradient(135deg, #0a0a0f 0%, #141422 100%);
+            --gradient-accent: linear-gradient(135deg, #3498db 0%, #5dade2 100%);
+            --success: #2ecc71;
+            --error: #e74c3c;
+            --warning: #f39c12;
+        }
+
+        body {
+            background: var(--primary);
+            color: var(--text);
+            overflow-x: hidden;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Animated Background */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .bg-line {
+            position: absolute;
+            width: 1px;
+            background: rgba(52, 152, 219, 0.1);
+            animation: float 20s infinite linear;
+        }
+
+        .bg-line:nth-child(1) {
+            height: 300px;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .bg-line:nth-child(2) {
+            height: 450px;
+            left: 20%;
+            animation-delay: -5s;
+        }
+
+        .bg-line:nth-child(3) {
+            height: 250px;
+            left: 30%;
+            animation-delay: -10s;
+        }
+
+        .bg-line:nth-child(4) {
+            height: 400px;
+            left: 40%;
+            animation-delay: -2s;
+        }
+
+        .bg-line:nth-child(5) {
+            height: 350px;
+            left: 60%;
+            animation-delay: -8s;
+        }
+
+        .bg-line:nth-child(6) {
+            height: 500px;
+            left: 80%;
+            animation-delay: -12s;
+        }
+
+        .bg-line:nth-child(7) {
+            height: 300px;
+            left: 90%;
+            animation-delay: -7s;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(-100vh) rotate(0deg);
+            }
+
+            100% {
+                transform: translateY(100vh) rotate(360deg);
+            }
+        }
+
+        /* Header */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 5%;
+            position: relative;
+            border-bottom: 1px solid rgba(52, 152, 219, 0.2);
+            background-color: rgba(10, 10, 15, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 100;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .brand-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--gradient-accent);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .brand-icon::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transform: translateX(-100%);
+            animation: shine 3s infinite;
+        }
+
+        .brand-icon i {
+            font-size: 1.5rem;
+            color: white;
+        }
+
+        .company-name {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(to right, #5dade2, #3498db);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .company-tagline {
+            font-size: 0.9rem;
+            color: var(--accent-light);
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+
+        /* Navigation */
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 40px;
+        }
+
+        nav a {
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1.1rem;
+            position: relative;
+            padding: 8px 0;
+            transition: all 0.3s;
+        }
+
+        nav a:hover {
+            color: var(--accent);
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gradient-accent);
+            transition: width 0.3s ease;
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        @keyframes shine {
+            0% {
+                transform: translateX(-100%);
+            }
+
+            100% {
+                transform: translateX(200%);
+            }
+        }
+
+        /* Register Container */
+        .register-container {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .register-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            width: 100%;
+            max-width: 1200px;
+        }
+
+        .register-info {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .register-title {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            background: linear-gradient(to right, #fff, var(--accent-light));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            line-height: 1.2;
+        }
+
+        .register-subtitle {
+            font-size: 1.3rem;
+            color: var(--text-secondary);
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .register-benefits {
+            margin-top: 30px;
+        }
+
+        .benefit-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .benefit-icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(52, 152, 219, 0.1);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .benefit-icon i {
+            color: var(--accent);
+            font-size: 1.2rem;
+        }
+
+        .benefit-text h4 {
+            color: var(--text);
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+
+        .benefit-text p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* Register Form */
+        .register-form-container {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 40px;
+            border: 1px solid var(--border);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .form-title {
+            font-size: 2rem;
+            margin-bottom: 30px;
+            color: var(--text);
+            text-align: center;
+        }
+
+        .register-form {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .form-group {
+            position: relative;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--text);
+            font-weight: 500;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 15px 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            color: var(--text);
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+        }
+
+        .form-input.valid {
+            border-color: var(--success);
+        }
+
+        .form-input.invalid {
+            border-color: var(--error);
+        }
+
+        .validation-message {
+            position: absolute;
+            bottom: -20px;
+            left: 0;
+            font-size: 0.85rem;
+            opacity: 0;
+            transform: translateY(5px);
+            transition: all 0.3s;
+        }
+
+        .validation-message.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .validation-message.valid {
+            color: var(--success);
+        }
+
+        .validation-message.invalid {
+            color: var(--error);
+        }
+
+        .password-requirements {
+            margin-top: 5px;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .requirement-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 5px;
+        }
+
+        .requirement-item i {
+            font-size: 0.8rem;
+        }
+
+        .requirement-item.valid i {
+            color: var(--success);
+        }
+
+        .requirement-item.invalid i {
+            color: var(--error);
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .btn {
+            padding: 16px 36px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn-primary {
+            background: var(--gradient-accent);
+            color: white;
+            flex: 1;
+            box-shadow: 0 4px 20px rgba(52, 152, 219, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(52, 152, 219, 0.4);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--accent);
+            border: 2px solid var(--accent);
+            flex: 1;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(52, 152, 219, 0.1);
+            transform: translateY(-3px);
+            box-shadow: 0 4px 20px rgba(52, 152, 219, 0.2);
+        }
+
+        .form-footer {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border);
+            color: var(--text-secondary);
+        }
+
+        .form-footer a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        .form-footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Success Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+        }
+
+        .modal-overlay.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 50px;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            border: 1px solid var(--border);
+            transform: translateY(20px);
+            transition: transform 0.3s;
+        }
+
+        .modal-overlay.show .modal {
+            transform: translateY(0);
+        }
+
+        .modal-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--gradient-accent);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 25px;
+        }
+
+        .modal-icon i {
+            font-size: 2.5rem;
+            color: white;
+        }
+
+        .modal h2 {
+            font-size: 2.2rem;
+            margin-bottom: 15px;
+            background: linear-gradient(to right, #fff, var(--accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .modal p {
+            color: var(--text-secondary);
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        /* Footer */
+        footer {
+            padding: 30px 5%;
+            text-align: center;
+            border-top: 1px solid var(--border);
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 20px;
+        }
+
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent);
+        }
+
+        /* Animations */
+        @keyframes fadeUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .register-wrapper {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .register-title {
+                font-size: 2.5rem;
+            }
+
+            .register-form-container {
+                padding: 30px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                gap: 20px;
+                text-align: center;
+            }
+
+            .brand {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            nav ul {
+                gap: 20px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .form-actions {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Animated Background -->
+    <div class="bg-animation">
+        <div class="bg-line"></div>
+        <div class="bg-line"></div>
+        <div class="bg-line"></div>
+        <div class="bg-line"></div>
+        <div class="bg-line"></div>
+        <div class="bg-line"></div>
+        <div class="bg-line"></div>
+    </div>
+
+    <!-- Header -->
+    <header>
+        <div class="brand">
+            <div class="brand-icon">
+                <i class="fas fa-car"></i>
+            </div>
+            <div>
+                <h1 class="company-name">Lingshui Used Car Market</h1>
+                <div class="company-tagline">PREMIUM PRE-OWNED VEHICLES</div>
+            </div>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="index.html#featured">Featured</a></li>
+                <li><a href="index.html#about">About</a></li>
+                <li><a href="search_and_show.html">Inventory</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Register Container -->
+    <main class="register-container">
+        <div class="register-wrapper">
+            <div class="register-info">
+                <h2 class="register-title">Join Our Exclusive Community</h2>
+                <p class="register-subtitle">Create an account to access premium features, save your favorite vehicles,
+                    receive personalized recommendations, and enjoy member-only benefits.</p>
+
+                <div class="register-benefits">
+                    <div class="benefit-item">
+                        <div class="benefit-icon">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <div class="benefit-text">
+                            <h4>Exclusive Access</h4>
+                            <p>Get early access to new arrivals and exclusive deals</p>
+                        </div>
+                    </div>
+
+                    <div class="benefit-item">
+                        <div class="benefit-icon">
+                            <i class="fas fa-heart"></i>
+                        </div>
+                        <div class="benefit-text">
+                            <h4>Save Favorites</h4>
+                            <p>Save vehicles you love and track price changes</p>
+                        </div>
+                    </div>
+
+                    <div class="benefit-item">
+                        <div class="benefit-icon">
+                            <i class="fas fa-bell"></i>
+                        </div>
+                        <div class="benefit-text">
+                            <h4>Personalized Alerts</h4>
+                            <p>Receive notifications for matching vehicles</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="register-form-container">
+                <h3 class="form-title">Create Account</h3>
+                <form class="register-form" id="registerForm">
+                    <div class="form-group">
+                        <label for="nickname" class="form-label">Nickname</label>
+                        <input type="text" id="nickname" class="form-input" placeholder="Enter your nickname" required>
+                        <div class="validation-message" id="nicknameValidation">
+                            English letters only, 3-20 characters
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email" class="form-label">Email Address</label>
+                        <input type="email" id="email" class="form-input" placeholder="example@domain.com" required>
+                        <div class="validation-message" id="emailValidation">
+                            Must be a valid .com email address
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phone" class="form-label">Phone Number</label>
+                        <input type="tel" id="phone" class="form-input" placeholder="+86 138 0013 8000" required>
+                        <div class="validation-message" id="phoneValidation">
+                            Valid Chinese phone number (11 digits, starting with 1)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password" class="form-label">Password</label>
+                        <input type="password" id="password" class="form-input" placeholder="Create a strong password"
+                            required>
+                        <div class="validation-message" id="passwordValidation">
+                            Must be 8+ characters with uppercase, lowercase, number, and special character
+                        </div>
+
+                        <div class="password-requirements">
+                            <div class="requirement-item" id="reqLength">
+                                <i class="fas fa-circle"></i>
+                                <span>At least 8 characters</span>
+                            </div>
+                            <div class="requirement-item" id="reqUppercase">
+                                <i class="fas fa-circle"></i>
+                                <span>At least one uppercase letter</span>
+                            </div>
+                            <div class="requirement-item" id="reqLowercase">
+                                <i class="fas fa-circle"></i>
+                                <span>At least one lowercase letter</span>
+                            </div>
+                            <div class="requirement-item" id="reqNumber">
+                                <i class="fas fa-circle"></i>
+                                <span>At least one number</span>
+                            </div>
+                            <div class="requirement-item" id="reqSpecial">
+                                <i class="fas fa-circle"></i>
+                                <span>At least one special character (!@#$%^&*)</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="confirmPassword" class="form-label">Confirm Password</label>
+                        <input type="password" id="confirmPassword" class="form-input"
+                            placeholder="Confirm your password" required>
+                        <div class="validation-message" id="confirmPasswordValidation">
+                            Passwords must match
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">
+                            <input type="checkbox" id="terms" required>
+                            I agree to the <a href="#" style="color: var(--accent);">Terms of Service</a> and <a
+                                href="#" style="color: var(--accent);">Privacy Policy</a>
+                        </label>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-user-plus"></i> Create Account
+                        </button>
+                        <a href="index.html" class="btn btn-secondary">
+                            <i class="fas fa-home"></i> Back to Home
+                        </a>
+                    </div>
+
+                    <div class="form-footer">
+                        Already have an account? <a href="#">Sign in here</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <!-- Success Modal -->
+    <div class="modal-overlay" id="successModal">
+        <div class="modal">
+            <div class="modal-icon">
+                <i class="fas fa-check"></i>
+            </div>
+            <h2>Registration Successful!</h2>
+            <p>Your account has been created successfully. Welcome to Lingshui Used Car Market community. You can now
+                access all premium features and start exploring our exclusive collection.</p>
+            <a href="index.html" class="btn btn-primary">
+                <i class="fas fa-home"></i> Go to Homepage
+            </a>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-links">
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms of Service</a>
+            <a href="#">Contact Us</a>
+            <a href="#">Careers</a>
+        </div>
+        <p>&copy; 2023 Lingshui Used Car Market. All rights reserved.</p>
+        <p>Premium pre-owned vehicle dealership. Luxury cars, SUVs, and performance vehicles.</p>
+    </footer>
+
+    <script>
+        // Regular expressions for validation
+        const validationPatterns = {
+            nickname: /^[A-Za-z]{3,20}$/, // English letters only, 3-20 characters
+            email: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.com$/, // Must end with .com
+            phone: /^(\+86\s?)?1[3-9]\d{9}$/, // Chinese phone number
+            password: {
+                length: /^.{8,}$/, // At least 8 characters
+                uppercase: /[A-Z]/, // At least one uppercase
+                lowercase: /[a-z]/, // At least one lowercase
+                number: /[0-9]/, // At least one number
+                special: /[!@#$%^&*]/, // At least one special character
+                overall: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*]).{8,}$/ // Combined pattern
+            }
+        };
+
+        // Form elements
+        const form = document.getElementById('registerForm');
+        const nicknameInput = document.getElementById('nickname');
+        const emailInput = document.getElementById('email');
+        const phoneInput = document.getElementById('phone');
+        const passwordInput = document.getElementById('password');
+        const confirmPasswordInput = document.getElementById('confirmPassword');
+        const successModal = document.getElementById('successModal');
+
+        // Validation message elements
+        const nicknameValidation = document.getElementById('nicknameValidation');
+        const emailValidation = document.getElementById('emailValidation');
+        const phoneValidation = document.getElementById('phoneValidation');
+        const passwordValidation = document.getElementById('passwordValidation');
+        const confirmPasswordValidation = document.getElementById('confirmPasswordValidation');
+
+        // Password requirement elements
+        const reqLength = document.getElementById('reqLength');
+        const reqUppercase = document.getElementById('reqUppercase');
+        const reqLowercase = document.getElementById('reqLowercase');
+        const reqNumber = document.getElementById('reqNumber');
+        const reqSpecial = document.getElementById('reqSpecial');
+
+        // Validate nickname
+        function validateNickname() {
+            const value = nicknameInput.value.trim();
+            const isValid = validationPatterns.nickname.test(value);
+
+            updateValidation(nicknameInput, nicknameValidation, isValid,
+                'Nickname is valid',
+                'Nickname must contain only English letters (3-20 characters)'
+            );
+
+            return isValid;
+        }
+
+        // Validate email
+        function validateEmail() {
+            const value = emailInput.value.trim();
+            const isValid = validationPatterns.email.test(value);
+
+            updateValidation(emailInput, emailValidation, isValid,
+                'Email is valid',
+                'Email must end with .com domain'
+            );
+
+            return isValid;
+        }
+
+        // Validate phone
+        function validatePhone() {
+            let value = phoneInput.value.trim();
+            // Remove spaces for validation but keep formatted display
+            const cleanValue = value.replace(/\s+/g, '');
+            const isValid = validationPatterns.phone.test(cleanValue);
+
+            // Format phone number for display
+            if (isValid && cleanValue.length === 11) {
+                const formatted = cleanValue.replace(/(\d{3})(\d{4})(\d{4})/, '$1 $2 $3');
+                if (!value.startsWith('+86')) {
+                    phoneInput.value = `+86 ${formatted}`;
+                } else if (!value.includes(' ')) {
+                    phoneInput.value = `+86 ${formatted}`;
+                }
+            }
+
+            updateValidation(phoneInput, phoneValidation, isValid,
+                'Phone number is valid',
+                'Please enter a valid Chinese phone number (11 digits, starting with 1)'
+            );
+
+            return isValid;
+        }
+
+        // Validate password
+        function validatePassword() {
+            const value = passwordInput.value;
+            const patterns = validationPatterns.password;
+
+            // Check individual requirements
+            const isLengthValid = patterns.length.test(value);
+            const isUppercaseValid = patterns.uppercase.test(value);
+            const isLowercaseValid = patterns.lowercase.test(value);
+            const isNumberValid = patterns.number.test(value);
+            const isSpecialValid = patterns.special.test(value);
+            const isOverallValid = patterns.overall.test(value);
+
+            // Update requirement indicators
+            updateRequirement(reqLength, isLengthValid);
+            updateRequirement(reqUppercase, isUppercaseValid);
+            updateRequirement(reqLowercase, isLowercaseValid);
+            updateRequirement(reqNumber, isNumberValid);
+            updateRequirement(reqSpecial, isSpecialValid);
+
+            updateValidation(passwordInput, passwordValidation, isOverallValid,
+                'Password is strong',
+                'Password must be 8+ characters with uppercase, lowercase, number, and special character'
+            );
+
+            // Validate password confirmation if it has a value
+            if (confirmPasswordInput.value) {
+                validateConfirmPassword();
+            }
+
+            return isOverallValid;
+        }
+
+        // Validate confirm password
+        function validateConfirmPassword() {
+            const password = passwordInput.value;
+            const confirmPassword = confirmPasswordInput.value;
+            const isValid = password === confirmPassword && password !== '';
+
+            updateValidation(confirmPasswordInput, confirmPasswordValidation, isValid,
+                'Passwords match',
+                'Passwords do not match'
+            );
+
+            return isValid;
+        }
+
+        // Update requirement indicator
+        function updateRequirement(element, isValid) {
+            if (isValid) {
+                element.classList.add('valid');
+                element.classList.remove('invalid');
+                element.innerHTML = '<i class="fas fa-check-circle"></i>' + element.innerHTML.substring(element.innerHTML.indexOf('>') + 1);
+            } else {
+                element.classList.add('invalid');
+                element.classList.remove('valid');
+                element.innerHTML = '<i class="fas fa-times-circle"></i>' + element.innerHTML.substring(element.innerHTML.indexOf('>') + 1);
+            }
+        }
+
+        // Update validation state
+        function updateValidation(input, validationElement, isValid, validMessage, invalidMessage) {
+            if (input.value.trim() === '') {
+                input.classList.remove('valid', 'invalid');
+                validationElement.classList.remove('show', 'valid', 'invalid');
+                return;
+            }
+
+            if (isValid) {
+                input.classList.add('valid');
+                input.classList.remove('invalid');
+                validationElement.textContent = validMessage;
+                validationElement.classList.add('show', 'valid');
+                validationElement.classList.remove('invalid');
+            } else {
+                input.classList.add('invalid');
+                input.classList.remove('valid');
+                validationElement.textContent = invalidMessage;
+                validationElement.classList.add('show', 'invalid');
+                validationElement.classList.remove('valid');
+            }
+        }
+
+        // Real-time validation
+        nicknameInput.addEventListener('input', validateNickname);
+        emailInput.addEventListener('input', validateEmail);
+        phoneInput.addEventListener('input', validatePhone);
+        passwordInput.addEventListener('input', validatePassword);
+        confirmPasswordInput.addEventListener('input', validateConfirmPassword);
+
+        // Format phone number on blur
+        phoneInput.addEventListener('blur', function () {
+            let value = this.value.trim().replace(/\s+/g, '');
+
+            if (value.startsWith('+86')) {
+                value = value.substring(3);
+            }
+
+            if (/^1[3-9]\d{9}$/.test(value)) {
+                const formatted = value.replace(/(\d{3})(\d{4})(\d{4})/, '$1 $2 $3');
+                this.value = `+86 ${formatted}`;
+            }
+        });
+
+        // Form submission
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            // Validate all fields
+            const isNicknameValid = validateNickname();
+            const isEmailValid = validateEmail();
+            const isPhoneValid = validatePhone();
+            const isPasswordValid = validatePassword();
+            const isConfirmPasswordValid = validateConfirmPassword();
+            const isTermsAccepted = document.getElementById('terms').checked;
+
+            // Check if all validations passed
+            if (isNicknameValid && isEmailValid && isPhoneValid &&
+                isPasswordValid && isConfirmPasswordValid && isTermsAccepted) {
+
+                // Show success modal
+                successModal.classList.add('show');
+
+                // In a real application, you would submit the form data to a server here
+                console.log('Form submitted successfully!');
+                console.log('Nickname:', nicknameInput.value);
+                console.log('Email:', emailInput.value);
+                console.log('Phone:', phoneInput.value);
+
+                // Reset form after successful submission
+                setTimeout(() => {
+                    form.reset();
+                    // Reset all validation states
+                    [nicknameInput, emailInput, phoneInput, passwordInput, confirmPasswordInput].forEach(input => {
+                        input.classList.remove('valid', 'invalid');
+                    });
+                    [nicknameValidation, emailValidation, phoneValidation, passwordValidation, confirmPasswordValidation].forEach(validation => {
+                        validation.classList.remove('show', 'valid', 'invalid');
+                    });
+                    // Reset password requirements
+                    [reqLength, reqUppercase, reqLowercase, reqNumber, reqSpecial].forEach(req => {
+                        req.classList.remove('valid', 'invalid');
+                        req.innerHTML = req.innerHTML.replace(/<i class="[^"]*"><\/i>/, '<i class="fas fa-circle"></i>');
+                    });
+                }, 3000);
+
+            } else {
+                // Focus on first invalid field
+                if (!isNicknameValid) nicknameInput.focus();
+                else if (!isEmailValid) emailInput.focus();
+                else if (!isPhoneValid) phoneInput.focus();
+                else if (!isPasswordValid) passwordInput.focus();
+                else if (!isConfirmPasswordValid) confirmPasswordInput.focus();
+                else if (!isTermsAccepted) {
+                    alert('Please agree to the Terms of Service and Privacy Policy');
+                }
+            }
+        });
+
+        // Close modal when clicking outside
+        successModal.addEventListener('click', function (e) {
+            if (e.target === this) {
+                this.classList.remove('show');
+            }
+        });
+
+        // Initialize animations
+        document.addEventListener('DOMContentLoaded', function () {
+            const registerInfo = document.querySelector('.register-info');
+            const registerForm = document.querySelector('.register-form-container');
+
+            registerInfo.style.opacity = '0';
+            registerInfo.style.transform = 'translateX(-20px)';
+            registerInfo.style.transition = 'opacity 0.8s, transform 0.8s';
+
+            registerForm.style.opacity = '0';
+            registerForm.style.transform = 'translateX(20px)';
+            registerForm.style.transition = 'opacity 0.8s, transform 0.8s';
+
+            setTimeout(() => {
+                registerInfo.style.opacity = '1';
+                registerInfo.style.transform = 'translateX(0)';
+                registerForm.style.opacity = '1';
+                registerForm.style.transform = 'translateX(0)';
+            }, 300);
+        });
+    </script>
+</body>
+
+</html>
