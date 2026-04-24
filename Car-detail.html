@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>2024 Toyota Camry XSE | AutoLuxe</title>
+    <title>AutoLuxe | Premium Vehicles</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700;800&display=swap');
 
@@ -17,7 +17,8 @@
             --accent-neon: #00f3ff;
             --accent-neon-glow: rgba(0, 243, 255, 0.5);
             --text-primary: #ffffff;
-            --text-secondary: #94949e;
+            /* ACCESSIBILITY UPDATE: Lightened secondary text for better contrast */
+            --text-secondary: #d1d1d6; 
             --font-main: 'Outfit', sans-serif;
             --transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
         }
@@ -113,7 +114,10 @@
             height: 70vh;
             display: flex;
             align-items: flex-end;
-            background: url('https://images.unsplash.com/photo-1621007947382-bb3c3994e3fb?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80') center/cover no-repeat;
+            /* Background image is now set dynamically via JS */
+            background-position: center;
+            background-size: cover;
+            background-repeat: no-repeat;
         }
 
         .hero::before {
@@ -145,7 +149,7 @@
             font-weight: 800;
             line-height: 1.1;
             margin-bottom: 10px;
-            background: linear-gradient(to right, #fff, #94949e);
+            background: linear-gradient(to right, #fff, #a0a0ab);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
@@ -217,6 +221,7 @@
             letter-spacing: 2px;
             color: var(--text-secondary);
             margin-bottom: 12px;
+            font-weight: 500; /* ACCESSIBILITY: Increased font weight slightly */
         }
 
         .bento-value {
@@ -244,8 +249,7 @@
             width: 60px;
             height: 60px;
             border-radius: 50%;
-            background: linear-gradient(145deg, #1f1f1f, #000000);
-            border: 2px solid #333;
+            border: 2px solid rgba(255,255,255,0.2);
             margin-bottom: 20px;
             box-shadow: 0 10px 20px rgba(0,0,0,0.6);
         }
@@ -259,9 +263,16 @@
         .item-description .bento-value {
             font-size: 1.1rem;
             font-weight: 300;
-            color: #d1d1d6;
+            /* ACCESSIBILITY: Brighter white for paragraph text */
+            color: #f2f2f7; 
             line-height: 1.8;
             margin-top: 10px;
+        }
+        
+        /* new：Decrease Drivetrain */
+        .item-drivetrain .bento-value {
+            font-size: 1.5rem; 
+            line-height: 1.2;
         }
 
         /* Action Area */
@@ -320,31 +331,14 @@
         }
 
         @media (max-width: 768px) {
-            nav {
-                display: none; /* In a real scenario, replaced with a hamburger menu */
-            }
-            .hero {
-                height: 50vh;
-            }
-            .car-title-wrapper h1 {
-                font-size: 2.5rem;
-            }
-            .price-tag {
-                font-size: 2.5rem;
-            }
-            .bento-grid {
-                grid-template-columns: 1fr;
-                grid-auto-rows: auto;
-            }
-            .item-brand, .item-description {
-                grid-column: span 1;
-            }
-            .item-description {
-                grid-row: span 1;
-            }
-            .bento-item {
-                padding: 25px;
-            }
+            nav { display: none; }
+            .hero { height: 50vh; }
+            .car-title-wrapper h1 { font-size: 2.5rem; }
+            .price-tag { font-size: 2.5rem; }
+            .bento-grid { grid-template-columns: 1fr; grid-auto-rows: auto; }
+            .item-brand, .item-description { grid-column: span 1; }
+            .item-description { grid-row: span 1; }
+            .bento-item { padding: 25px; }
         }
     </style>
 </head>
@@ -360,51 +354,54 @@
         </nav>
     </header>
 
-    <div class="hero"></div>
+    <div class="hero" id="hero-section"></div>
 
     <main class="container">
         
         <div class="car-header">
             <div class="car-title-wrapper">
-                <p>Premium Certified Used</p>
-                <h1>2024 Toyota Camry</h1>
+                <p id="car-condition"></p>
+                <h1 id="car-title"></h1>
             </div>
-            <div class="price-tag">$32,450</div>
+            <div class="price-tag" id="car-price"></div>
         </div>
 
         <div class="bento-grid">
             
             <div class="bento-item item-brand">
                 <div class="bento-label">Make & Trim</div>
-                <div class="bento-value">Toyota Camry XSE</div>
+                <div class="bento-value" id="spec-brand"></div>
             </div>
 
             <div class="bento-item item-year">
                 <div class="bento-label">Year</div>
-                <div class="bento-value">2024</div>
+                <div class="bento-value" id="spec-year"></div>
             </div>
 
             <div class="bento-item item-color">
-                <div class="color-swatch"></div>
+                <div class="color-swatch" id="spec-color-swatch"></div>
                 <div class="bento-label">Exterior</div>
-                <div class="bento-value">Midnight Black</div>
+                <div class="bento-value" id="spec-color-name"></div>
             </div>
 
             <div class="bento-item item-mileage">
                 <div class="bento-label">Mileage</div>
-                <div class="bento-value">12,450 mi</div>
+                <div class="bento-value" id="spec-mileage"></div>
             </div>
 
             <div class="bento-item item-location">
                 <div class="bento-label">Location</div>
-                <div class="bento-value">Beverly Hills, CA</div>
+                <div class="bento-value" id="spec-location"></div>
+            </div>
+            
+            <div class="bento-item item-drivetrain">
+                <div class="bento-label">Fuel & Trans</div>
+                <div class="bento-value" id="spec-drivetrain"></div>
             </div>
 
             <div class="bento-item item-description">
                 <div class="bento-label">Seller Notes</div>
-                <div class="bento-value">
-                    Immaculate condition 2024 Toyota Camry XSE V6. This vehicle merges reliable performance with a surprisingly aggressive, premium aesthetic. It features a panoramic glass roof, sport-tuned suspension, and a custom Cockpit Red leather interior. Single owner, garage kept, with full maintenance records available. Fully detailed and ready for its next driver.
-                </div>
+                <div class="bento-value" id="spec-description"></div>
             </div>
             
         </div>
@@ -415,5 +412,85 @@
 
     </main>
 
+    <script>
+        // 1. Define the Car Database
+        const carDatabase = {
+            "1": {
+                condition: "Premium Certified Used",
+                title: "2024 Toyota Camry",
+                price: "$32,450",
+                brand: "Toyota Camry XSE",
+                year: "2024",
+                colorName: "Midnight Black",
+                colorGradient: "linear-gradient(145deg, #1f1f1f, #000000)",
+                mileage: "12,450 mi",
+                location: "Beverly Hills, CA",
+                drivetrain: "Petrol & Auto", 
+                description: "Immaculate condition 2024 Toyota Camry XSE V6. This vehicle merges reliable performance with a surprisingly aggressive, premium aesthetic. Features a panoramic glass roof, sport-tuned suspension, and custom Cockpit Red leather interior. Single owner, garage kept. Fully detailed and ready for its next driver.",
+                heroImg: "https://images.unsplash.com/photo-1621007947382-bb3c3994e3fb?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80"
+            },
+            "2": {
+                condition: "Like-New Executive Lease",
+                title: "2023 BMW M4 Comp",
+                price: "$82,900",
+                brand: "BMW M4 Competition",
+                year: "2023",
+                colorName: "Isle of Man Green",
+                colorGradient: "linear-gradient(145deg, #0d4a22, #052911)",
+                mileage: "6,200 mi",
+                location: "Miami, FL",
+                drivetrain: "Petrol & Auto", 
+                description: "A pure driver's car. 503 hp twin-turbo inline-six, all-wheel drive, carbon fiber roof, and Kyalami Orange/Black Merino leather interior. Flawless condition, zero modifications, clear PPF applied on the entire front end to protect the stunning metallic paint.",
+                heroImg: "https://images.unsplash.com/photo-1617531653332-bd46c24f2068?q=80&w=2670&auto=format&fit=crop"
+            },
+            "3": {
+                condition: "Electric Performance Pre-Owned",
+                title: "2022 Tesla Model S",
+                price: "$89,500",
+                brand: "Tesla Model S Plaid",
+                year: "2022",
+                colorName: "Solid Black",
+                colorGradient: "linear-gradient(145deg, #2b2b2b, #000000)",
+                mileage: "18,900 mi",
+                location: "Austin, TX",
+                drivetrain: "Electric & Auto", 
+                description: "0-60 mph in 1.99s. 1,020 horsepower tri-motor AWD. Black and White premium interior with Carbon Fiber decor. Includes the Yoke steering wheel and Full Self-Driving Capability. Battery health is excellent; always home-charged to 80%.",
+                heroImg: "https://images.unsplash.com/photo-1617788138017-80ad40651399?q=80&w=2670&auto=format&fit=crop"
+            }
+        };
+
+        // 2. Fetch the ID from URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        let currentId = urlParams.get('id');
+
+        // 3. Fallback to ID 1 if no ID is present or if the ID doesn't exist in the database
+        if (!currentId || !carDatabase[currentId]) {
+            currentId = "1";
+        }
+
+        // 4. Extract the active car's data
+        const activeCar = carDatabase[currentId];
+
+        // 5. Inject data into HTML elements via DOM manipulation
+        document.title = `${activeCar.title} | AutoLuxe`;
+        document.getElementById('hero-section').style.backgroundImage = `url('${activeCar.heroImg}')`;
+        document.getElementById('car-condition').textContent = activeCar.condition;
+        document.getElementById('car-title').textContent = activeCar.title;
+        document.getElementById('car-price').textContent = activeCar.price;
+        
+        document.getElementById('spec-brand').textContent = activeCar.brand;
+        document.getElementById('spec-year').textContent = activeCar.year;
+        
+        document.getElementById('spec-color-name').textContent = activeCar.colorName;
+        document.getElementById('spec-color-swatch').style.background = activeCar.colorGradient;
+        
+        document.getElementById('spec-mileage').textContent = activeCar.mileage;
+        document.getElementById('spec-location').textContent = activeCar.location;
+        
+        document.getElementById('spec-drivetrain').textContent = activeCar.drivetrain;
+
+        document.getElementById('spec-description').textContent = activeCar.description;
+
+    </script>
 </body>
 </html>
