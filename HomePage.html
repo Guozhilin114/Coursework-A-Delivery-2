@@ -35,6 +35,7 @@
             min-height: 100vh;
         }
 
+        /* ... (其余CSS样式保持不变，为节省篇幅已折叠) ... */
         /* Animated Background */
         .bg-animation {
             position: fixed;
@@ -699,10 +700,11 @@
         </div>
         <nav>
             <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="#featured">Featured</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="search_and_show.html">Inventory</a></li>
+                <!-- 修改1：导航栏Home链接指向HomePage.html -->
+                <li><a href="HomePage.html">Home</a></li>
+                <li><a href="search.html">Search</a></li>
+                <li><a href="login.html">Seller Login</a></li>
+                <li><a href="upload_car.html">Upload Car</a></li>
             </ul>
         </nav>
     </header>
@@ -713,7 +715,8 @@
         <p>Discover luxury, performance, and value with our curated selection of premium pre-owned vehicles. Each car is
             meticulously inspected and certified to meet our exacting standards for quality and reliability.</p>
         <div class="cta-buttons">
-            <a href="#featured" class="btn btn-primary">
+            <!-- 修改：将Explore Collection按钮的href从"#featured"改为"search.html" -->
+            <a href="search.html" class="btn btn-primary">
                 <i class="fas fa-car"></i> Explore Collection
             </a>
             <a href="register.html" class="btn btn-secondary">
@@ -762,29 +765,31 @@
             <!-- Car 2 -->
             <div class="car-card">
                 <div class="car-image">
-                    <img src="https://images.unsplash.com/photo-1555212697-194d092e3b8f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=987&q=80"
-                        alt="Porsche 911 Carrera">
+                    <!-- 修改2：更换第二张图片为显示车辆的图片 -->
+                    <img src="https://images.unsplash.com/photo-1544636331-e26879cd4d9b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1074&q=80"
+                        alt="BMW 5 Series">
                 </div>
                 <div class="car-info">
                     <div class="car-title">
-                        <span>Porsche 911 Carrera 2021</span>
-                        <span class="car-price">$112,800</span>
+                        <span>BMW 5 Series 2023</span>
+                        <span class="car-price">$78,900</span>
                     </div>
-                    <p>High-performance sports car with 8,500 miles. Excellent condition with full service history.</p>
+                    <p>Luxury sports sedan with premium performance features. Excellent condition with only 8,000 miles.
+                    </p>
                     <div class="car-specs">
                         <div class="spec">
                             <i class="fas fa-tachometer-alt"></i>
-                            <div class="spec-value">8.5K mi</div>
+                            <div class="spec-value">8K mi</div>
                             <div class="spec-label">Mileage</div>
                         </div>
                         <div class="spec">
                             <i class="fas fa-gas-pump"></i>
-                            <div class="spec-value">Premium</div>
+                            <div class="spec-value">Petrol</div>
                             <div class="spec-label">Fuel Type</div>
                         </div>
                         <div class="spec">
                             <i class="fas fa-cog"></i>
-                            <div class="spec-value">PDK</div>
+                            <div class="spec-value">Auto</div>
                             <div class="spec-label">Transmission</div>
                         </div>
                     </div>
@@ -856,8 +861,9 @@
             </div>
             <div class="about-image">
                 <div class="car-image">
-                    <img src="https://images.unsplash.com/photo-1593941707882-a5bba5338fe2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80"
-                        alt="Showroom">
+                    <!-- 修复的Showroom图片链接 -->
+                    <img src="https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80"
+                        alt="Luxury Car Showroom">
                 </div>
             </div>
         </div>
@@ -975,8 +981,20 @@
                     }
                 });
             });
+
+            // Image fallback handler
+            const images = document.querySelectorAll('img');
+            images.forEach(img => {
+                img.addEventListener('error', function () {
+                    console.log('Image failed to load:', this.src);
+                    // 设置一个后备图片
+                    this.src = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="400" height="240" viewBox="0 0 400 240"><rect width="400" height="240" fill="%23141422"/><text x="200" y="120" font-family="Arial" font-size="20" fill="%235dade2" text-anchor="middle">Car Image</text></svg>';
+                });
+            });
         });
     </script>
 </body>
+
+</html>
 
 </html>
