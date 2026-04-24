@@ -75,23 +75,42 @@
             font-size: 2.2rem;
         }
 
-        .nav-links {
-            display: flex;
-            gap: 25px;
-        }
-
-        .nav-link {
-            color: var(--light-text-secondary);
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.3s;
+        /* 右上角导航按钮 - 与Search页面保持一致 */
+        .top-nav {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 20px;
+            margin-left: auto;
         }
 
-        .nav-link:hover, .nav-link.active {
-            color: var(--primary);
+        .nav-button {
+            color: var(--light-text-secondary);
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 500;
+            padding: 8px 0;
+            position: relative;
+            transition: color 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .nav-button:hover {
+            color: var(--light-text);
+        }
+
+        .nav-button.active {
+            color: var(--light-text);
+        }
+
+        .nav-button.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background-color: #3b82f6; /* 蓝绿色下划线 */
+            border-radius: 1px;
         }
 
         /* 主内容布局 */
@@ -451,8 +470,12 @@
                 align-items: stretch;
             }
             
-            .nav-links {
+            .top-nav {
+                order: 2;
+                width: 100%;
                 justify-content: center;
+                margin-top: 15px;
+                margin-left: 0;
             }
             
             .button-group {
@@ -475,6 +498,12 @@
             
             .preview-details {
                 grid-template-columns: 1fr;
+            }
+            
+            .top-nav {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 15px;
             }
         }
 
@@ -521,20 +550,17 @@
     <header>
         <div class="container">
             <div class="header-content">
-                <a href="#" class="logo">
+                <a href="homepage.html" class="logo">
                     <i class="fas fa-car logo-icon"></i>
                     AutoShow
                 </a>
                 
-                <div class="nav-links">
-                    <a href="searchpage.html" class="nav-link">
-                        <i class="fas fa-search"></i>
-                        Browse Vehicles
-                    </a>
-                    <a href="upload.html" class="nav-link active">
-                        <i class="fas fa-upload"></i>
-                        Upload Vehicle
-                    </a>
+                <!-- 右上角导航按钮，与Search页面一致 -->
+                <div class="top-nav">
+                    <a href="homepage.html" class="nav-button">Home</a>
+                    <a href="search.html" class="nav-button">Search</a>
+                    <a href="seller_login.html" class="nav-button">Seller Login</a>
+                    <a href="upload.html" class="nav-button active">Upload Car</a>
                 </div>
             </div>
         </div>
@@ -794,7 +820,7 @@
                         <p style="color: var(--light-text-secondary); margin-bottom: 15px;">
                             After uploading, you can view this vehicle on the search page
                         </p>
-                        <a href="searchpage.html" class="btn btn-search" style="text-decoration: none; display: inline-flex;">
+                        <a href="search.html" class="btn btn-search" style="text-decoration: none; display: inline-flex;">
                             <i class="fas fa-search"></i>
                             Go to Search Page
                         </a>
@@ -818,6 +844,16 @@
     </footer>
 
     <script>
+        // 从localStorage获取当前最大ID
+        function getNextCarId() {
+            const cars = JSON.parse(localStorage.getItem('uploadedCars') || '[]');
+            if (cars.length === 0) {
+                return 11; // 从11开始，因为原始数据有10辆车
+            }
+            const maxId = Math.max(...cars.map(car => car.id));
+            return maxId + 1;
+        }
+
         // 预览更新功能
         function updatePreview() {
             // 获取表单值
@@ -835,7 +871,8 @@
             
             // 更新预览
             if (brand && model && year) {
-                document.getElementById('previewTitle').textContent = `${year} ${brand.charAt(0).toUpperCase() + brand.slice(1)} ${model}`;
+                const brandName = brand === 'other' ? '' : brand.charAt(0).toUpperCase() + brand.slice(1) + ' ';
+                document.getElementById('previewTitle').textContent = `${year} ${brandName}${model}`;
             } else {
                 document.getElementById('previewTitle').textContent = "2024 Toyota Camry";
             }
@@ -993,35 +1030,43 @@
             
             // 获取表单数据
             const formData = {
-                id: Date.now(), // 使用时间戳作为ID
+                id: getNextCarId(), // 获取下一个可用ID
                 brand: document.getElementById('brand').value,
-                model: document.getElementById('model').value,
+                name: function() {
+                    const year = document.getElementById('year').value;
+                    const brand = document.getElementById('brand').value;
+                    const model = document.getElementById('model').value;
+                    const brandName = brand === 'other' ? '' : brand.charAt(0).toUpperCase() + brand.slice(1) + ' ';
+                    return `${year} ${brandName}${model}`;
+                }(),
+                price: '$' + parseInt(document.getElementById('price').value).toLocaleString(),
                 year: document.getElementById('year').value,
-                trim: document.getElementById('trim').value,
-                price: document.getElementById('price').value,
-                mileage: document.getElementById('mileage').value,
                 drivetrain: document.getElementById('drivetrain').value,
+                mileage: document.getElementById('mileage').value,
+                location: document.getElementById('location').value,
+                trim: document.getElementById('trim').value,
                 color: document.getElementById('color').value,
                 colorCode: document.getElementById('colorCode').value,
-                location: document.getElementById('location').value,
-                imageUrl: document.getElementById('imageUrl').value || 'https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+                // 如果没有提供图片URL，使用默认图片
+                image: document.getElementById('imageUrl').value || 'https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
                 transmission: document.getElementById('transmission').value,
                 engine: document.getElementById('engine').value,
                 fuelType: document.getElementById('fuelType').value,
-                description: document.getElementById('description').value
+                description: document.getElementById('description').value,
+                uploadedAt: new Date().toISOString()
             };
             
             // 验证必填字段
-            if (!formData.brand || !formData.model || !formData.year || !formData.price || 
+            if (!formData.brand || !formData.model || !formData.year || !document.getElementById('price').value || 
                 !formData.mileage || !formData.drivetrain || !formData.color || !formData.location) {
                 alert('Please fill in all required fields.');
                 return;
             }
             
             // 保存到localStorage
-            let vehicles = JSON.parse(localStorage.getItem('vehicles') || '[]');
-            vehicles.push(formData);
-            localStorage.setItem('vehicles', JSON.stringify(vehicles));
+            let uploadedCars = JSON.parse(localStorage.getItem('uploadedCars') || '[]');
+            uploadedCars.push(formData);
+            localStorage.setItem('uploadedCars', JSON.stringify(uploadedCars));
             
             // 显示成功消息
             document.getElementById('successMessage').style.display = 'block';
@@ -1029,7 +1074,7 @@
             // 滚动到成功消息
             document.getElementById('successMessage').scrollIntoView({ behavior: 'smooth' });
             
-            // 3秒后隐藏成功消息
+            // 5秒后隐藏成功消息
             setTimeout(() => {
                 document.getElementById('successMessage').style.display = 'none';
             }, 5000);
@@ -1037,6 +1082,13 @@
             // 重置表单
             setTimeout(() => {
                 document.getElementById('vehicleForm').reset();
+                // 重置颜色选择器
+                document.querySelectorAll('.color-option').forEach(opt => {
+                    opt.classList.remove('selected');
+                });
+                document.querySelector('.color-option').classList.add('selected');
+                document.getElementById('colorCode').value = '#1e293b';
+                imagePreview.style.display = 'none';
                 updatePreview();
             }, 100);
         });
@@ -1044,14 +1096,29 @@
         // 重置表单
         document.getElementById('resetForm').addEventListener('click', function() {
             document.getElementById('vehicleForm').reset();
-            updatePreview();
+            // 重置颜色选择器
             document.querySelectorAll('.color-option').forEach(opt => {
                 opt.classList.remove('selected');
             });
             document.querySelector('.color-option').classList.add('selected');
             document.getElementById('colorCode').value = '#1e293b';
             imagePreview.style.display = 'none';
+            updatePreview();
         });
+        
+        // 导航按钮活动状态管理
+        function setupNavigation() {
+            const navButtons = document.querySelectorAll('.nav-button');
+            
+            navButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // 移除active类从所有按钮
+                    navButtons.forEach(btn => btn.classList.remove('active'));
+                    // 添加active类到点击的按钮
+                    this.classList.add('active');
+                });
+            });
+        }
         
         // 初始化
         document.addEventListener('DOMContentLoaded', function() {
@@ -1060,6 +1127,13 @@
             
             // 初始化预览
             updatePreview();
+            
+            // 初始化导航按钮
+            setupNavigation();
+        });
+    </script>
+</body>
+</html>
         });
     </script>
 </body>
