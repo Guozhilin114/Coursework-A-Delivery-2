@@ -8,23 +8,26 @@
     :root {
       --bg: #121212;
       --bg-soft: #181818;
-      --panel: rgba(255, 255, 255, 0.06);
-      --panel-strong: rgba(255, 255, 255, 0.1);
-      --panel-border: rgba(255, 255, 255, 0.14);
-      --panel-border-strong: rgba(255, 255, 255, 0.2);
+      --bg-deep: #0e1013;
+      --panel: rgba(255, 255, 255, 0.05);
+      --panel-2: rgba(255, 255, 255, 0.08);
+      --panel-border: rgba(255, 255, 255, 0.11);
+      --panel-border-strong: rgba(255, 255, 255, 0.18);
       --text: #f3f7ff;
       --muted: #98a4b5;
       --blue: #2ea8ff;
       --blue-strong: #0d8dff;
-      --blue-soft: rgba(46, 168, 255, 0.18);
-      --white-soft: rgba(255, 255, 255, 0.72);
+      --blue-soft: rgba(46, 168, 255, 0.16);
+      --blue-glow: rgba(46, 168, 255, 0.34);
+      --white-soft: rgba(255, 255, 255, 0.74);
       --shadow: 0 24px 70px rgba(0, 0, 0, 0.48);
-      --shadow-blue: 0 0 0 1px rgba(46, 168, 255, 0.15), 0 18px 60px rgba(8, 68, 122, 0.25);
+      --shadow-soft: 0 14px 34px rgba(0, 0, 0, 0.28);
       --radius-xl: 30px;
       --radius-lg: 22px;
       --radius-md: 16px;
       --header-h: 84px;
       --max-w: 1440px;
+      --transition: all 0.38s cubic-bezier(0.25, 1, 0.5, 1);
     }
 
     * {
@@ -33,14 +36,15 @@
       padding: 0;
     }
 
-    html, body {
+    html,
+    body {
       width: 100%;
       min-height: 100%;
       font-family: Inter, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
       background:
-        radial-gradient(circle at 12% 18%, rgba(46, 168, 255, 0.15), transparent 30%),
-        radial-gradient(circle at 88% 22%, rgba(46, 168, 255, 0.1), transparent 22%),
-        radial-gradient(circle at 78% 82%, rgba(46, 168, 255, 0.08), transparent 24%),
+        radial-gradient(circle at 12% 18%, rgba(46, 168, 255, 0.14), transparent 30%),
+        radial-gradient(circle at 88% 22%, rgba(46, 168, 255, 0.08), transparent 20%),
+        radial-gradient(circle at 78% 82%, rgba(46, 168, 255, 0.07), transparent 24%),
         linear-gradient(145deg, #0f0f10 0%, #151617 40%, #101112 100%);
       color: var(--text);
       overflow-x: hidden;
@@ -50,7 +54,6 @@
     body::after {
       content: "";
       position: fixed;
-      inset: auto;
       pointer-events: none;
       z-index: 0;
       filter: blur(12px);
@@ -61,7 +64,7 @@
       height: 420px;
       top: -120px;
       right: -100px;
-      background: radial-gradient(circle, rgba(46, 168, 255, 0.18), transparent 68%);
+      background: radial-gradient(circle, rgba(46, 168, 255, 0.16), transparent 68%);
     }
 
     body::after {
@@ -75,11 +78,6 @@
     a {
       color: inherit;
       text-decoration: none;
-    }
-
-    img {
-      max-width: 100%;
-      display: block;
     }
 
     .page {
@@ -98,7 +96,7 @@
       border-radius: 34px;
       background:
         linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.015)),
-        rgba(18, 18, 18, 0.8);
+        rgba(18, 18, 18, 0.82);
       box-shadow: 0 30px 90px rgba(0, 0, 0, 0.5);
       backdrop-filter: blur(18px);
       -webkit-backdrop-filter: blur(18px);
@@ -113,7 +111,7 @@
       inset: 0;
       background:
         linear-gradient(120deg, rgba(255, 255, 255, 0.04), transparent 18%, transparent 82%, rgba(255, 255, 255, 0.03)),
-        linear-gradient(180deg, rgba(46, 168, 255, 0.06), transparent 20%);
+        linear-gradient(180deg, rgba(46, 168, 255, 0.05), transparent 18%);
       pointer-events: none;
       z-index: -1;
     }
@@ -123,17 +121,22 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
+      gap: 24px;
       padding: 0 34px;
       border-bottom: 1px solid rgba(255, 255, 255, 0.07);
-      background: linear-gradient(180deg, rgba(255, 255, 255, 0.03), transparent);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
+      background: rgba(8, 10, 14, 0.38);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      position: sticky;
+      top: 0;
+      z-index: 30;
     }
 
     .brand {
       display: flex;
       align-items: center;
       gap: 14px;
+      flex-shrink: 0;
     }
 
     .brand-mark {
@@ -142,7 +145,7 @@
       border-radius: 14px;
       position: relative;
       background:
-        linear-gradient(145deg, rgba(46, 168, 255, 0.22), rgba(255, 255, 255, 0.04)),
+        linear-gradient(145deg, rgba(46, 168, 255, 0.2), rgba(255, 255, 255, 0.04)),
         rgba(255, 255, 255, 0.03);
       border: 1px solid rgba(255, 255, 255, 0.16);
       box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08), 0 10px 28px rgba(0, 0, 0, 0.35);
@@ -189,28 +192,83 @@
       text-transform: uppercase;
     }
 
+    /* 改成参考上传文件的右上角导航响应思路：
+       桌面端更轻、更细、更像高端展厅站点；
+       仍保留本页的玻璃拟态质感与霓虹高亮。 */
     nav {
       display: flex;
       align-items: center;
-      gap: 10px;
+      justify-content: flex-end;
+      gap: 24px;
       flex-wrap: wrap;
+      max-width: 60%;
     }
 
     nav a {
-      color: var(--white-soft);
+      position: relative;
+      color: var(--muted);
       font-size: 0.95rem;
-      padding: 10px 14px;
+      font-weight: 600;
+      letter-spacing: 0.01em;
+      padding: 8px 2px;
+      transition:
+        transform 0.38s cubic-bezier(0.25, 1, 0.5, 1),
+        border-color 0.26s ease,
+        box-shadow 0.26s ease,
+        background 0.26s ease;
+      white-space: nowrap;
+    }
+
+    nav a::before {
+      content: "";
+      position: absolute;
+      inset: -8px -12px;
       border-radius: 999px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02));
       border: 1px solid transparent;
-      transition: 0.25s ease;
+      opacity: 0;
+      transform: scale(0.96);
+      transition: var(--transition);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+
+    nav a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -6px;
+      width: 0;
+      height: 2px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--blue), #7ad4ff);
+      box-shadow: 0 0 12px var(--blue-glow);
+      transition: var(--transition);
+    }
+
+    nav a span {
+      position: relative;
+      z-index: 1;
     }
 
     nav a:hover,
     nav a.active {
       color: var(--text);
-      border-color: rgba(46, 168, 255, 0.22);
-      background: rgba(46, 168, 255, 0.09);
-      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.03);
+    }
+
+    nav a:hover::before,
+    nav a.active::before {
+      opacity: 1;
+      transform: scale(1);
+      border-color: rgba(46, 168, 255, 0.18);
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,0.08),
+        0 10px 24px rgba(0,0,0,0.22);
+    }
+
+    nav a:hover::after,
+    nav a.active::after {
+      width: 100%;
     }
 
     .main {
@@ -318,7 +376,9 @@
     .mini-card,
     .login-card,
     .field,
-    .cta-strip {
+    .cta-strip,
+    .metric,
+    .meta-box {
       background:
         linear-gradient(180deg, rgba(255, 255, 255, 0.09), rgba(255, 255, 255, 0.03)),
         rgba(255, 255, 255, 0.03);
@@ -326,35 +386,54 @@
       box-shadow:
         inset 0 1px 0 rgba(255, 255, 255, 0.06),
         inset 0 -18px 30px rgba(0, 0, 0, 0.18),
-        var(--shadow);
+        var(--shadow-soft);
       backdrop-filter: blur(22px);
       -webkit-backdrop-filter: blur(22px);
+      position: relative;
+      overflow: hidden;
+      transition:
+        transform 0.38s cubic-bezier(0.25, 1, 0.5, 1),
+        border-color 0.24s ease,
+        box-shadow 0.24s ease,
+        background 0.24s ease;
+    }
+
+    .vehicle-card::before,
+    .insight-card::before,
+    .mini-card::before,
+    .login-card::before,
+    .field::before,
+    .cta-strip::before,
+    .metric::before,
+    .meta-box::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -120%;
+      width: 52%;
+      height: 100%;
+      background: linear-gradient(to right, transparent, rgba(255,255,255,0.07), transparent);
+      transform: skewX(-20deg);
+      opacity: 0;
+      transition:
+        left 0.22s cubic-bezier(0.4, 0, 1, 1),
+        opacity 0.18s ease-out;
+      pointer-events: none;
     }
 
     .vehicle-card {
       min-height: 260px;
       border-radius: 26px;
       padding: 22px;
-      position: relative;
-      overflow: hidden;
     }
 
-    .vehicle-card::before {
+    .vehicle-card::after {
       content: "";
       position: absolute;
       inset: auto 18px 20px 18px;
       height: 2px;
       background: linear-gradient(90deg, transparent, rgba(46, 168, 255, 0.9), transparent);
       box-shadow: 0 0 18px rgba(46, 168, 255, 0.35);
-    }
-
-    .vehicle-card::after {
-      content: "";
-      position: absolute;
-      inset: 18px;
-      border-radius: 18px;
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      pointer-events: none;
     }
 
     .vehicle-silhouette {
@@ -419,8 +498,6 @@
     .mini-card {
       border-radius: 22px;
       padding: 18px 18px 16px;
-      position: relative;
-      overflow: hidden;
     }
 
     .insight-card strong,
@@ -430,6 +507,8 @@
       margin-bottom: 8px;
       font-weight: 700;
       letter-spacing: -0.02em;
+      position: relative;
+      z-index: 1;
     }
 
     .insight-card p,
@@ -437,15 +516,8 @@
       color: var(--muted);
       line-height: 1.65;
       font-size: 0.94rem;
-    }
-
-    .insight-card::before,
-    .mini-card::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(125deg, rgba(46, 168, 255, 0.08), transparent 32%);
-      pointer-events: none;
+      position: relative;
+      z-index: 1;
     }
 
     .metrics {
@@ -460,11 +532,12 @@
     .metric {
       border-radius: 20px;
       padding: 18px 16px;
-      background:
-        linear-gradient(180deg, rgba(255, 255, 255, 0.075), rgba(255, 255, 255, 0.028)),
-        rgba(255, 255, 255, 0.02);
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+    }
+
+    .metric h3,
+    .metric span {
+      position: relative;
+      z-index: 1;
     }
 
     .metric h3 {
@@ -520,7 +593,6 @@
     }
 
     .login-card {
-      position: relative;
       z-index: 1;
       border-radius: 30px;
       padding: 30px;
@@ -533,17 +605,6 @@
         inset 0 -24px 40px rgba(0, 0, 0, 0.22),
         0 36px 90px rgba(0, 0, 0, 0.52),
         0 0 0 1px rgba(46, 168, 255, 0.06);
-      overflow: hidden;
-    }
-
-    .login-card::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background:
-        linear-gradient(140deg, rgba(46, 168, 255, 0.12), transparent 24%),
-        linear-gradient(0deg, transparent 75%, rgba(255, 255, 255, 0.03));
-      pointer-events: none;
     }
 
     .login-card::after {
@@ -612,7 +673,7 @@
       background:
         linear-gradient(145deg, rgba(46, 168, 255, 0.18), rgba(255, 255, 255, 0.03)),
         rgba(255, 255, 255, 0.03);
-      box-shadow: var(--shadow-blue);
+      box-shadow: 0 0 0 1px rgba(46, 168, 255, 0.15), 0 18px 60px rgba(8, 68, 122, 0.25);
       position: relative;
       flex-shrink: 0;
     }
@@ -640,18 +701,9 @@
     .field {
       border-radius: 18px;
       padding: 15px 16px 13px;
-      transition: 0.25s ease;
       background:
         linear-gradient(180deg, rgba(255, 255, 255, 0.085), rgba(255, 255, 255, 0.03)),
         rgba(255, 255, 255, 0.03);
-    }
-
-    .field:focus-within {
-      border-color: rgba(46, 168, 255, 0.35);
-      box-shadow:
-        inset 0 1px 0 rgba(255, 255, 255, 0.08),
-        0 0 0 1px rgba(46, 168, 255, 0.2),
-        0 16px 34px rgba(13, 141, 255, 0.12);
     }
 
     .field label {
@@ -662,6 +714,8 @@
       color: #bfd0df;
       margin-bottom: 10px;
       font-weight: 700;
+      position: relative;
+      z-index: 1;
     }
 
     .field input {
@@ -672,10 +726,20 @@
       color: var(--text);
       font-size: 1rem;
       line-height: 1.4;
+      position: relative;
+      z-index: 1;
     }
 
     .field input::placeholder {
       color: #6f7b89;
+    }
+
+    .field:focus-within {
+      border-color: rgba(46, 168, 255, 0.35);
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.08),
+        0 0 0 1px rgba(46, 168, 255, 0.2),
+        0 16px 34px rgba(13, 141, 255, 0.12);
     }
 
     .form-row {
@@ -704,7 +768,7 @@
     .forgot {
       color: #cfe8ff;
       font-size: 0.92rem;
-      transition: 0.25s ease;
+      transition: var(--transition);
     }
 
     .forgot:hover {
@@ -728,7 +792,7 @@
       box-shadow:
         0 18px 32px rgba(13, 141, 255, 0.24),
         inset 0 1px 0 rgba(255, 255, 255, 0.22);
-      transition: transform 0.25s ease, box-shadow 0.25s ease, filter 0.25s ease;
+      transition: var(--transition);
     }
 
     .login-btn:hover {
@@ -740,8 +804,6 @@
     }
 
     .cta-strip {
-      position: relative;
-      z-index: 1;
       margin-top: 18px;
       border-radius: 18px;
       padding: 16px 18px;
@@ -751,6 +813,12 @@
       gap: 16px;
       color: var(--muted);
       font-size: 0.93rem;
+    }
+
+    .cta-strip span,
+    .cta-strip a {
+      position: relative;
+      z-index: 1;
     }
 
     .cta-strip a {
@@ -771,13 +839,17 @@
     .meta-box {
       padding: 14px 12px;
       border-radius: 16px;
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px solid rgba(255, 255, 255, 0.1);
       text-align: center;
     }
 
-    .meta-box strong {
+    .meta-box strong,
+    .meta-box span {
+      position: relative;
+      z-index: 1;
       display: block;
+    }
+
+    .meta-box strong {
       font-size: 1rem;
       margin-bottom: 6px;
       color: #eef7ff;
@@ -787,6 +859,40 @@
       color: var(--muted);
       font-size: 0.8rem;
       line-height: 1.45;
+    }
+
+    /* Desktop hover / pointer 设备：保留明显悬浮 */
+    @media (hover: hover) and (pointer: fine) {
+      .vehicle-card:hover,
+      .insight-card:hover,
+      .mini-card:hover,
+      .login-card:hover,
+      .field:hover,
+      .cta-strip:hover,
+      .metric:hover,
+      .meta-box:hover {
+        transform: translateY(-6px);
+        border-color: rgba(255, 255, 255, 0.18);
+        box-shadow:
+          inset 0 1px 0 rgba(255,255,255,0.08),
+          0 20px 42px rgba(0,0,0,0.34),
+          0 0 0 1px rgba(46, 168, 255, 0.08);
+      }
+
+      .vehicle-card:hover::before,
+      .insight-card:hover::before,
+      .mini-card:hover::before,
+      .login-card:hover::before,
+      .field:hover::before,
+      .cta-strip:hover::before,
+      .metric:hover::before,
+      .meta-box:hover::before {
+        left: 185%;
+        opacity: 1;
+        transition:
+          left 0.92s cubic-bezier(0.22, 1, 0.36, 1),
+          opacity 0.2s ease-out;
+      }
     }
 
     @media (max-width: 1180px) {
@@ -809,8 +915,14 @@
       .headline p {
         max-width: 48ch;
       }
+
+      nav {
+        gap: 18px;
+        max-width: 64%;
+      }
     }
 
+    /* Laptop / tablet：导航更像上传文件中的右上角响应收缩逻辑 */
     @media (max-width: 980px) {
       .page {
         padding: 16px;
@@ -821,14 +933,31 @@
       }
 
       header {
-        padding: 0 22px;
+        padding: 16px 22px;
         height: auto;
-        min-height: 78px;
-        gap: 16px;
+        min-height: 86px;
+        align-items: flex-start;
         flex-wrap: wrap;
-        justify-content: space-between;
-        padding-top: 14px;
-        padding-bottom: 14px;
+      }
+
+      .brand {
+        width: 100%;
+      }
+
+      nav {
+        width: 100%;
+        max-width: 100%;
+        gap: 10px 14px;
+        justify-content: flex-start;
+      }
+
+      nav a {
+        padding: 10px 2px;
+        font-size: 0.92rem;
+      }
+
+      nav a::before {
+        inset: -6px -10px;
       }
 
       .main {
@@ -862,6 +991,45 @@
       }
     }
 
+    /* 中小平板：悬浮减弱，避免元素跳动拥挤 */
+    @media (max-width: 860px) {
+      .vehicle-card,
+      .insight-card,
+      .mini-card,
+      .login-card,
+      .field,
+      .cta-strip,
+      .metric,
+      .meta-box {
+        box-shadow:
+          inset 0 1px 0 rgba(255,255,255,0.05),
+          0 12px 24px rgba(0,0,0,0.22);
+      }
+
+      nav {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, max-content));
+        align-items: center;
+      }
+
+      nav a {
+        width: fit-content;
+      }
+
+      @media (hover: hover) and (pointer: fine) {
+        .vehicle-card:hover,
+        .insight-card:hover,
+        .mini-card:hover,
+        .login-card:hover,
+        .field:hover,
+        .cta-strip:hover,
+        .metric:hover,
+        .meta-box:hover {
+          transform: translateY(-3px);
+        }
+      }
+    }
+
     @media (max-width: 720px) {
       .page {
         padding: 12px;
@@ -877,12 +1045,32 @@
 
       nav {
         width: 100%;
-        gap: 8px;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
       }
 
       nav a {
-        padding: 9px 12px;
-        font-size: 0.9rem;
+        padding: 12px 0;
+        text-align: center;
+        border-radius: 999px;
+        background: linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02));
+        border: 1px solid rgba(255,255,255,0.08);
+      }
+
+      nav a::before {
+        inset: 0;
+        opacity: 1;
+        transform: none;
+        background: transparent;
+        border: none;
+        box-shadow: none;
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+      }
+
+      nav a::after {
+        left: 14%;
+        bottom: 8px;
       }
 
       .showcase,
@@ -923,6 +1111,83 @@
         white-space: normal;
       }
     }
+
+    @media (max-width: 560px) {
+      nav {
+        grid-template-columns: 1fr;
+      }
+
+      nav a {
+        width: 100%;
+      }
+
+      .brand-text h1 {
+        font-size: 0.88rem;
+      }
+
+      .brand-text span {
+        font-size: 0.72rem;
+      }
+    }
+
+    /* 触屏设备：关闭大幅 hover 位移，只保留轻微状态变化 */
+
+    /* 让 hover 进入与离开更有主次：
+       进入时扫光完整划过；
+       离开时快速隐去并快速回到起点，减少“尾迹注意力”。 */
+    @media (hover: hover) and (pointer: fine) {
+      .vehicle-card::before,
+      .insight-card::before,
+      .mini-card::before,
+      .login-card::before,
+      .field::before,
+      .cta-strip::before,
+      .metric::before,
+      .meta-box::before {
+        will-change: left, opacity;
+      }
+
+      .vehicle-card:not(:hover)::before,
+      .insight-card:not(:hover)::before,
+      .mini-card:not(:hover)::before,
+      .login-card:not(:hover)::before,
+      .field:not(:hover)::before,
+      .cta-strip:not(:hover)::before,
+      .metric:not(:hover)::before,
+      .meta-box:not(:hover)::before {
+        opacity: 0;
+      }
+    }
+
+    @media (hover: none) {
+      .vehicle-card:hover,
+      .insight-card:hover,
+      .mini-card:hover,
+      .login-card:hover,
+      .field:hover,
+      .cta-strip:hover,
+      .metric:hover,
+      .meta-box:hover {
+        transform: none;
+        border-color: var(--panel-border);
+        box-shadow:
+          inset 0 1px 0 rgba(255,255,255,0.06),
+          0 12px 24px rgba(0,0,0,0.22);
+      }
+
+      .vehicle-card:active,
+      .insight-card:active,
+      .mini-card:active,
+      .field:active,
+      .metric:active,
+      .meta-box:active,
+      .cta-strip:active {
+        border-color: rgba(46, 168, 255, 0.18);
+        background:
+          linear-gradient(180deg, rgba(255, 255, 255, 0.1), rgba(255,255,255,0.04)),
+          rgba(255,255,255,0.03);
+      }
+    }
   </style>
 </head>
 <body>
@@ -938,10 +1203,10 @@
         </div>
 
         <nav>
-          <a href="#">Home</a>
-          <a href="#">Search</a>
-          <a href="#" class="active">Seller Login</a>
-          <a href="#">Upload Car</a>
+          <a href="#"><span>Home</span></a>
+          <a href="#"><span>Search</span></a>
+          <a href="#" class="active"><span>Seller Login</span></a>
+          <a href="#"><span>Upload Car</span></a>
         </nav>
       </header>
 
