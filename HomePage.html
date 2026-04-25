@@ -26,6 +26,16 @@
             --card-bg: rgba(20, 20, 34, 0.9);
             --gradient-primary: linear-gradient(135deg, #0a0a0f 0%, #141422 100%);
             --gradient-accent: linear-gradient(135deg, #3498db 0%, #5dade2 100%);
+
+            /* 新增的Logo相关变量 */
+            --accent-neon: #00f3ff;
+            /* 霓虹蓝绿色 */
+            --accent-neon-glow: rgba(0, 243, 255, 0.8);
+            /* 霓虹发光效果 */
+            --text-primary: #ffffff;
+            /* 主文本颜色 */
+            --logo-text: #ffffff;
+            /* Logo文本颜色 */
         }
 
         body {
@@ -687,24 +697,24 @@
         <div class="bg-line"></div>
     </div>
 
-    <!-- Header -->
     <header>
-        <div class="brand">
-            <div class="brand-icon">
-                <i class="fas fa-car"></i>
-            </div>
-            <div>
-                <h1 class="company-name">Lingshui Used Car Market</h1>
-                <div class="company-tagline">PREMIUM PRE-OWNED VEHICLES</div>
-            </div>
-        </div>
+        <!-- 优化后的Logo，放大并更美观 -->
+        <a href="HomePage.html" class="logo"
+            style="display: flex; align-items: center; gap: 12px; text-decoration: none; transition: all 0.3s ease;">
+            <img src="logo.png" alt="OmniCars Logo"
+                style="height: 45px; width: auto; filter: drop-shadow(0 0 12px var(--accent-neon-glow)); transition: all 0.3s ease;">
+            <span
+                style="color: var(--logo-text); font-weight: 800; letter-spacing: 2.5px; font-size: 1.5rem; transition: all 0.3s ease;">
+                OMNI<span style="color: var(--accent-neon); text-shadow: 0 0 8px var(--accent-neon-glow);">CARS</span>
+            </span>
+        </a>
+
         <nav>
             <ul>
-                <!-- 修改1：导航栏Home链接指向HomePage.html -->
                 <li><a href="HomePage.html">Home</a></li>
                 <li><a href="search.html">Search</a></li>
                 <li><a href="login.html">Seller Login</a></li>
-                <li><a href="upload_car.html">Upload Car</a></li>
+                <li><a href="upload.html">Upload Car</a></li>
             </ul>
         </nav>
     </header>
