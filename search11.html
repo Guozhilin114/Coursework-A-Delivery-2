@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AutoShow - Luxury Car Showcase</title>
+    <title>Car Showcase</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
@@ -71,8 +71,10 @@
         }
 
         .logo-icon {
-            color: var(--primary);
-            font-size: 2.2rem;
+            width: 40px; /* 根据需要调整宽度 */
+            height: auto; /* 保持宽高比 */
+            vertical-align: middle; /* 与文字垂直居中 */
+            margin-right: 8px; /* 与文字间距 */
         }
 
         /* 右上角导航按钮 */
@@ -500,8 +502,9 @@
         <div class="container">
             <div class="header-content">
                 <a href="homepage.html" class="logo">
-                    <i class="fas fa-car logo-icon"></i>
-                    AutoShow
+                <img src="logo.png" alt="OmniCars Logo" class="logo-icon">
+                    <!-- <i class="fas fa-car logo-icon"></i> -->
+                    OmniCars
                 </a>
                 
                 <!-- 搜索栏向左移动 -->
@@ -514,7 +517,7 @@
                 <div class="top-nav">
                     <a href="homepage.html" class="nav-button">Home</a>
                     <a href="search.html" class="nav-button active">Search</a>
-                    <a href="seller_login.html" class="nav-button">Seller Login</a>
+                    <a href="login.html" class="nav-button">Seller Login</a>
                     <a href="upload.html" class="nav-button">Upload Car</a>
                 </div>
             </div>
@@ -634,21 +637,21 @@
                 trim: "Competition",
                 color: "Toronto Red",
                 colorCode: "#ef4444",
-                image: "https://images.unsplash.com/photo-1555212697-194d92e28bcc?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                image: "https://images.unsplash.com/photo-1617531653332-bd46c24f2068?q=80&w=2670&auto=format&fit=crop"
             },
             {
                 id: 3,
                 brand: "mercedes",
-                name: "2023 Mercedes-Benz E-Class",
+                name: "2024 Mercedes-Benz E-Class",
                 price: "$68,400",
-                year: "2023",
+                year: "2024",
                 drivetrain: "AWD",
                 mileage: "8,750 mi",
                 location: "New York, NY",
                 trim: "AMG Line",
-                color: "Iridium Silver",
+                color: "Verde Silver Metallic",
                 colorCode: "#cbd5e1",
-                image: "https://images.unsplash.com/photo-1563720223480-0-2b9b76b5617?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                image: "https://images.unsplash.com/photo-1765446925539-ddd50bed8692?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
             },
             {
                 id: 4,
@@ -690,7 +693,7 @@
                 trim: "xDrive40i",
                 color: "Carbon Black",
                 colorCode: "#64748b",
-                image: "https://images.unsplash.com/photo-1580273916550-e323be2ae537?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                image: "https://platform.cstatic-images.com/xxlarge/in/v2/a23f94d0-edfa-4d32-9d3b-8b8e411fd24c/2bab9e64-3084-4836-8098-351d911ebf36/88scNM3TpILVR_OnuFUOnTdeZiE.jpg"
             },
             {
                 id: 7,
@@ -704,7 +707,7 @@
                 trim: "GT Premium",
                 color: "Race Red",
                 colorCode: "#dc2626",
-                image: "https://images.unsplash.com/photo-1580273916550-e323be2ae537?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                image: "https://images.unsplash.com/photo-1680367297179-7b4b2bfa9346?q=80&w=2231&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
             },
             {
                 id: 8,
@@ -718,21 +721,21 @@
                 trim: "Type R",
                 color: "Championship White",
                 colorCode: "#f8fafc",
-                image: "https://images.unsplash.com/photo-1593941707882-a5bba5338fe2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                image: "https://bringatrailer.com/wp-content/uploads/2024/01/2024_honda_civic-type-r_2024_honda_civic-type-r_924af67e-0374-446a-8a70-5921a7f4ff32-l0vkc7-23989-32728.jpg?w=2038"
             },
             {
                 id: 9,
-                brand: "audi",
-                name: "2022 Audi Q7 Prestige",
+                brand: "Tesla",
+                name: "2022 Tesla Roadster",
                 price: "$65,800",
                 year: "2022",
-                drivetrain: "AWD",
+                drivetrain: "T",
                 mileage: "18,400 mi",
                 location: "Phoenix, AZ",
                 trim: "Prestige",
                 color: "Glacier White",
                 colorCode: "#f1f5f9",
-                image: "https://images.unsplash.com/photo-1517524206127-48bbd363f3d7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                image: "https://images.unsplash.com/photo-1617788138017-80ad40651399?q=80&w=2670&auto=format&fit=crop"
             },
             {
                 id: 10,
