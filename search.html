@@ -277,6 +277,7 @@
             height: 220px;
             overflow: hidden;
             position: relative;
+            cursor: pointer; /* 添加指针样式 */
         }
 
         .car-image {
@@ -504,7 +505,7 @@
                 <a href="homepage.html" class="logo">
                 <img src="logo.png" alt="OmniCars Logo" class="logo-icon">
                     <!-- <i class="fas fa-car logo-icon"></i> -->
-                    OmniCars
+                    OMNICARS
                 </a>
                 
                 <!-- 搜索栏向左移动 -->
@@ -595,7 +596,7 @@
         </div>
     </main>
     
-    <!-- <footer>
+    <footer>
         <div class="container">
             <div class="footer-content">
                 <div>© 2023 AutoShow. All rights reserved.</div>
@@ -606,7 +607,7 @@
                 </div>
             </div>
         </div>
-    </footer> -->
+    </footer>
 
     <script>
         // 原始车辆数据
@@ -725,11 +726,11 @@
             },
             {
                 id: 9,
-                brand: "Tesla",
+                brand: "tesla",
                 name: "2022 Tesla Roadster",
                 price: "$65,800",
                 year: "2022",
-                drivetrain: "T",
+                drivetrain: "AWD",
                 mileage: "18,400 mi",
                 location: "Phoenix, AZ",
                 trim: "Prestige",
@@ -737,6 +738,7 @@
                 colorCode: "#f1f5f9",
                 image: "https://images.unsplash.com/photo-1617788138017-80ad40651399?q=80&w=2670&auto=format&fit=crop"
             },
+
         ];
 
         // 从localStorage获取上传的车辆数据
@@ -826,6 +828,21 @@
                         </div>
                     </div>
                 `;
+                
+                // 为车辆图片容器添加点击事件
+                const imageContainer = carElement.querySelector('.car-image-container');
+                imageContainer.addEventListener('click', function() {
+                    // 跳转到Car-detail.html，并传递车辆ID参数
+                    window.location.href = `Car-detail.html?id=${car.id}`;
+                });
+                
+                // 为整个卡片添加点击事件（可选的，如果你想让整个卡片都可点击）
+                carElement.addEventListener('click', function(e) {
+                    // 如果点击的不是图片容器，也跳转到详情页
+                    if (!e.target.closest('.car-image-container')) {
+                        window.location.href = `Car-detail.html?id=${car.id}`;
+                    }
+                });
                 
                 carsGrid.appendChild(carElement);
             });
