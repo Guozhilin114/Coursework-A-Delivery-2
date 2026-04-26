@@ -41,7 +41,6 @@
             padding: 0 20px;
         }
 
-        /* 头部样式 */
         header {
             padding: 20px 0;
             border-bottom: 1px solid var(--glass-border);
@@ -75,7 +74,7 @@
             font-size: 2.2rem;
         }
 
-        /* 右上角导航按钮 - 与Search页面保持一致 */
+     
         .top-nav {
             display: flex;
             align-items: center;
@@ -113,7 +112,6 @@
             border-radius: 1px;
         }
 
-        /* 主内容布局 */
         .main-content {
             padding: 40px 0;
         }
@@ -138,7 +136,7 @@
             margin: 0 auto;
         }
 
-        /* 上传表单容器 */
+   
         .upload-container {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -218,7 +216,6 @@
             min-height: 120px;
         }
 
-        /* 图片上传区域 */
         .image-upload {
             border: 2px dashed var(--glass-border);
             border-radius: 10px;
@@ -264,7 +261,7 @@
             object-fit: cover;
         }
 
-        /* 预览区域 */
+      
         .preview-section {
             background: var(--glass-bg);
             border-radius: 16px;
@@ -363,7 +360,7 @@
             font-weight: 600;
         }
 
-        /* 按钮样式 */
+   
         .button-group {
             display: flex;
             gap: 15px;
@@ -414,7 +411,7 @@
             background: #0da271;
         }
 
-        /* 页脚样式 */
+  
         footer {
             margin-top: 50px;
             padding: 30px 0;
@@ -447,7 +444,7 @@
             color: var(--primary);
         }
 
-        /* 响应式设计 */
+      
         @media (max-width: 1200px) {
             .upload-container {
                 gap: 30px;
@@ -507,7 +504,6 @@
             }
         }
 
-        /* 颜色选择器 */
         .color-selector {
             display: flex;
             gap: 10px;
@@ -528,7 +524,6 @@
             transform: scale(1.1);
         }
 
-        /* 成功消息 */
         .success-message {
             display: none;
             background: rgba(16, 185, 129, 0.2);
@@ -552,14 +547,13 @@
             <div class="header-content">
                 <a href="homepage.html" class="logo">
                     <i class="fas fa-car logo-icon"></i>
-                    upload car here
+                    Upload Vehicle
                 </a>
                 
-                <!-- 右上角导航按钮，与Search页面一致 -->
                 <div class="top-nav">
-                    <a href="HomePage.html" class="nav-button">Home</a>
+                    <a href="homepage.html" class="nav-button">Home</a>
                     <a href="search.html" class="nav-button">Search</a>
-                    <a href="seller-login.html" class="nav-button">Seller Login</a>
+                    <a href="login.html" class="nav-button">Seller Login</a>
                     <a href="upload.html" class="nav-button active">Upload Car</a>
                 </div>
             </div>
@@ -626,7 +620,7 @@
                             <div class="form-row">
                                 <div class="form-group">
                                     <label class="form-label required">Price ($)</label>
-                                    <input type="number" class="form-input" id="price" placeholder="e.g., 32450" min="0" required>
+                                    <input type="number" class="form-input" id="price" placeholder="e.g., 32450" min="0" step="100" required>
                                 </div>
                                 
                                 <div class="form-group">
@@ -763,8 +757,7 @@
                         </div>
                     </form>
                 </div>
-                
-                <!-- 预览区域 -->
+               
                 <div class="preview-section">
                     <h2><i class="fas fa-eye"></i> Preview</h2>
                     <p style="color: var(--light-text-secondary); margin-bottom: 20px;">This is how your vehicle will look on the search page</p>
@@ -810,7 +803,7 @@
                                 </div>
                                 <div class="preview-detail">
                                     <span class="preview-detail-label">Stock #</span>
-                                    <span class="preview-detail-value">#0012</span>
+                                    <span class="preview-detail-value" id="previewStockId">#0012</span>
                                 </div>
                             </div>
                         </div>
@@ -844,19 +837,32 @@
     </footer>
 
     <script>
-        // 从localStorage获取当前最大ID
+       
         function getNextCarId() {
-            const cars = JSON.parse(localStorage.getItem('uploadedCars') || '[]');
-            if (cars.length === 0) {
-                return 11; // 从11开始，因为原始数据有10辆车
+            try {
+                const cars = JSON.parse(localStorage.getItem('uploadedCars') || '[]');
+                console.log('Current uploaded cars in localStorage:', cars);
+                if (cars.length === 0) {
+                    return 10; 
+                }
+                const maxId = Math.max(...cars.map(car => car.id));
+                console.log('Current max ID:', maxId, 'Next ID:', maxId + 1);
+                return maxId + 1;
+            } catch (error) {
+                console.error('Error getting next car ID:', error);
+                return 10; 
             }
-            const maxId = Math.max(...cars.map(car => car.id));
-            return maxId + 1;
         }
 
-        // 预览更新功能
+
+        function updatePreviewStockId() {
+            const nextId = getNextCarId();
+            document.getElementById('previewStockId').textContent = `#${nextId.toString().padStart(4, '0')}`;
+        }
+
+     
         function updatePreview() {
-            // 获取表单值
+     
             const brand = document.getElementById('brand').value;
             const model = document.getElementById('model').value;
             const year = document.getElementById('year').value;
@@ -868,27 +874,26 @@
             const location = document.getElementById('location').value;
             const colorCode = document.getElementById('colorCode').value;
             const imageUrl = document.getElementById('imageUrl').value;
-            
-            // 更新预览
+           
             if (brand && model && year) {
                 const brandName = brand === 'other' ? '' : brand.charAt(0).toUpperCase() + brand.slice(1) + ' ';
                 document.getElementById('previewTitle').textContent = `${year} ${brandName}${model}`;
             } else {
                 document.getElementById('previewTitle').textContent = "2024 Toyota Camry";
             }
-            
+           
             if (price) {
                 document.getElementById('previewPrice').textContent = `$${parseInt(price).toLocaleString()}`;
             } else {
                 document.getElementById('previewPrice').textContent = "$32,450";
             }
-            
+           
             if (year) {
                 document.getElementById('previewYear').textContent = year;
             } else {
                 document.getElementById('previewYear').textContent = "2024";
             }
-            
+           
             if (mileage) {
                 document.getElementById('previewMileage').textContent = mileage;
             } else {
@@ -906,85 +911,102 @@
             } else {
                 document.getElementById('previewDrivetrain').textContent = "FWD";
             }
-            
+      
             if (trim) {
                 document.getElementById('previewTrim').textContent = trim;
             } else {
                 document.getElementById('previewTrim').textContent = "XSE";
             }
-            
+         
             if (color) {
                 document.getElementById('previewColor').textContent = color;
             } else {
                 document.getElementById('previewColor').textContent = "Black";
             }
-            
-            // 更新颜色条
+        
             document.getElementById('previewColorBar').style.backgroundColor = colorCode;
-            
-            // 更新图片预览
+        
             if (imageUrl) {
-                const previewImage = document.getElementById('previewImage');
-                previewImage.src = imageUrl;
-                previewImage.onload = function() {
-                    document.getElementById('previewImageContainer').innerHTML = `<img src="${imageUrl}" alt="Vehicle Preview" style="width: 100%; height: 100%; object-fit: cover;">`;
-                };
-                previewImage.onerror = function() {
-                    document.getElementById('previewImageContainer').innerHTML = `<i class="fas fa-car"></i>`;
-                };
+                const previewImageContainer = document.getElementById('previewImageContainer');
+                previewImageContainer.innerHTML = `<img src="${imageUrl}" alt="Vehicle Preview" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.onerror=null; this.parentElement.innerHTML='<i class=\\'fas fa-car\\'></i>';">`;
+            } else {
+                const previewImageContainer = document.getElementById('previewImageContainer');
+                previewImageContainer.innerHTML = `<i class="fas fa-car"></i>`;
             }
+            
+          
+            updatePreviewStockId();
         }
         
-        // 颜色选择器
+   
         document.querySelectorAll('.color-option').forEach(option => {
             option.addEventListener('click', function() {
-                // 移除所有选中的颜色
+         
                 document.querySelectorAll('.color-option').forEach(opt => {
                     opt.classList.remove('selected');
                 });
-                
-                // 添加选中状态
+              
                 this.classList.add('selected');
-                
-                // 更新颜色代码
+           
                 const color = this.getAttribute('data-color');
                 document.getElementById('colorCode').value = color;
-                
-                // 更新预览
+             
+                const colorNames = {
+                    '#1e293b': 'Midnight Black',
+                    '#ef4444': 'Torino Red',
+                    '#3b82f6': 'Navarra Blue',
+                    '#10b981': 'Emerald Green',
+                    '#f8fafc': 'Pearl White',
+                    '#64748b': 'Graphite Gray',
+                    '#f59e0b': 'Sunset Orange',
+                    '#8b5cf6': 'Amethyst Purple'
+                };
+                document.getElementById('color').value = colorNames[color] || 'Custom Color';
+              
                 updatePreview();
             });
         });
         
-        // 图片上传处理
+      
         const imageUploadArea = document.getElementById('imageUploadArea');
         const imageFileInput = document.getElementById('imageFile');
         const imageUrlInput = document.getElementById('imageUrl');
         const imagePreview = document.getElementById('imagePreview');
         const previewImage = document.getElementById('previewImage');
         
-        // 点击上传区域触发文件选择
+       
         imageUploadArea.addEventListener('click', function() {
             imageFileInput.click();
         });
         
-        // 处理文件选择
+   
         imageFileInput.addEventListener('change', function(e) {
             const file = e.target.files[0];
             if (file) {
-                // 创建临时URL
+       
+                if (!file.type.startsWith('image/')) {
+                    alert('Please select an image file.');
+                    return;
+                }
+                
+       
+                if (file.size > 5 * 1024 * 1024) {
+                    alert('Image size should be less than 5MB.');
+                    return;
+                }
+         
                 const imageUrl = URL.createObjectURL(file);
                 imageUrlInput.value = imageUrl;
-                
-                // 显示预览
+            
                 previewImage.src = imageUrl;
                 imagePreview.style.display = 'block';
                 
-                // 更新预览
+          
                 updatePreview();
             }
         });
         
-        // 拖放上传
+       
         imageUploadArea.addEventListener('dragover', function(e) {
             e.preventDefault();
             this.style.borderColor = 'var(--primary)';
@@ -1004,132 +1026,260 @@
             
             const file = e.dataTransfer.files[0];
             if (file && file.type.startsWith('image/')) {
-                // 创建临时URL
+             
+                if (file.size > 5 * 1024 * 1024) {
+                    alert('Image size should be less than 5MB.');
+                    return;
+                }
+              
                 const imageUrl = URL.createObjectURL(file);
                 imageUrlInput.value = imageUrl;
                 
-                // 显示预览
+               
                 previewImage.src = imageUrl;
                 imagePreview.style.display = 'block';
                 
-                // 更新预览
                 updatePreview();
+            } else {
+                alert('Please drop an image file.');
             }
         });
         
-        // 实时更新预览
+        
         const formInputs = document.querySelectorAll('#vehicleForm input, #vehicleForm select, #vehicleForm textarea');
         formInputs.forEach(input => {
             input.addEventListener('input', updatePreview);
             input.addEventListener('change', updatePreview);
         });
-        
-        // 表单提交
+    
         document.getElementById('vehicleForm').addEventListener('submit', function(e) {
             e.preventDefault();
             
-            // 获取表单数据
-            const formData = {
-                id: getNextCarId(), // 获取下一个可用ID
-                brand: document.getElementById('brand').value,
-                name: function() {
-                    const year = document.getElementById('year').value;
-                    const brand = document.getElementById('brand').value;
-                    const model = document.getElementById('model').value;
-                    const brandName = brand === 'other' ? '' : brand.charAt(0).toUpperCase() + brand.slice(1) + ' ';
-                    return `${year} ${brandName}${model}`;
-                }(),
-                price: '$' + parseInt(document.getElementById('price').value).toLocaleString(),
-                year: document.getElementById('year').value,
-                drivetrain: document.getElementById('drivetrain').value,
-                mileage: document.getElementById('mileage').value,
-                location: document.getElementById('location').value,
-                trim: document.getElementById('trim').value,
-                color: document.getElementById('color').value,
-                colorCode: document.getElementById('colorCode').value,
-                // 如果没有提供图片URL，使用默认图片
-                image: document.getElementById('imageUrl').value || 'https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-                transmission: document.getElementById('transmission').value,
-                engine: document.getElementById('engine').value,
-                fuelType: document.getElementById('fuelType').value,
-                description: document.getElementById('description').value,
-                uploadedAt: new Date().toISOString()
-            };
+            console.log('Form submission started...');
+         
+            const brand = document.getElementById('brand').value;
+            const model = document.getElementById('model').value;
+            const year = document.getElementById('year').value;
+            const trim = document.getElementById('trim').value;
+            const price = document.getElementById('price').value;
+            const mileage = document.getElementById('mileage').value;
+            const drivetrain = document.getElementById('drivetrain').value;
+            const color = document.getElementById('color').value;
+            const location = document.getElementById('location').value;
+            const colorCode = document.getElementById('colorCode').value;
+            const imageUrl = document.getElementById('imageUrl').value;
+            const transmission = document.getElementById('transmission').value;
+            const engine = document.getElementById('engine').value;
+            const fuelType = document.getElementById('fuelType').value;
+            const description = document.getElementById('description').value;
             
-            // 验证必填字段
-            if (!formData.brand || !formData.model || !formData.year || !document.getElementById('price').value || 
-                !formData.mileage || !formData.drivetrain || !formData.color || !formData.location) {
+            console.log('Form values collected:', { brand, model, year, price, mileage });
+         
+            if (!brand || !model || !year || !price || !mileage || !drivetrain || !color || !location) {
                 alert('Please fill in all required fields.');
                 return;
             }
             
-            // 保存到localStorage
-            let uploadedCars = JSON.parse(localStorage.getItem('uploadedCars') || '[]');
-            uploadedCars.push(formData);
-            localStorage.setItem('uploadedCars', JSON.stringify(uploadedCars));
+           
+            if (isNaN(parseFloat(price)) || parseFloat(price) <= 0) {
+                alert('Please enter a valid price.');
+                return;
+            }
+          
+            const brandName = brand === 'other' ? '' : brand.charAt(0).toUpperCase() + brand.slice(1) + ' ';
+            const carName = `${year} ${brandName}${model}`;
+         
+            const nextCarId = getNextCarId();
+        
+            const formData = {
+                id: nextCarId,
+                brand: brand,
+                model: model,
+                name: carName,
+                price: '$' + parseFloat(price).toLocaleString(),
+                year: year,
+                drivetrain: drivetrain,
+                mileage: mileage,
+                location: location,
+                trim: trim,
+                color: color,
+                colorCode: colorCode,
+             
+                image: imageUrl || 'https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+                transmission: transmission,
+                engine: engine,
+                fuelType: fuelType,
+                description: description,
+                uploadedAt: new Date().toISOString()
+            };
             
-            // 显示成功消息
-            document.getElementById('successMessage').style.display = 'block';
+            console.log('Form data prepared:', formData);
             
-            // 滚动到成功消息
-            document.getElementById('successMessage').scrollIntoView({ behavior: 'smooth' });
-            
-            // 5秒后隐藏成功消息
-            setTimeout(() => {
-                document.getElementById('successMessage').style.display = 'none';
-            }, 5000);
-            
-            // 重置表单
-            setTimeout(() => {
+           
+            try {
+                let uploadedCars = JSON.parse(localStorage.getItem('uploadedCars') || '[]');
+                console.log('Current uploaded cars:', uploadedCars.length);
+                
+                uploadedCars.push(formData);
+                localStorage.setItem('uploadedCars', JSON.stringify(uploadedCars));
+                
+                console.log('Saved to localStorage. Total uploaded cars now:', uploadedCars.length);
+                
+              
+                const successMessage = document.getElementById('successMessage');
+                successMessage.style.display = 'block';
+                successMessage.innerHTML = `
+                    <i class="fas fa-check-circle"></i>
+                    <h3>Vehicle Successfully Added!</h3>
+                    <p>Your vehicle "<strong>${carName}</strong>" has been added to the inventory.</p>
+                    <p><strong>Vehicle ID:</strong> ${formData.id}</p>
+                    <p><strong>Price:</strong> ${formData.price}</p>
+                    <p><small>You can now view this vehicle on the search page.</small></p>
+                `;
+                
+                successMessage.scrollIntoView({ behavior: 'smooth' });
+                
+                console.log('=== UPLOAD SUCCESS ===');
+                console.log('Vehicle saved with ID:', formData.id);
+                console.log('Total uploaded vehicles in localStorage:', uploadedCars.length);
+                console.log('Latest vehicle:', formData);
+                console.log('=== END ===');
+                
+               
+                setTimeout(() => {
+                    successMessage.style.display = 'none';
+                }, 10000);
+             
+                setTimeout(() => {
+                    document.getElementById('vehicleForm').reset();
+               
+                    document.querySelectorAll('.color-option').forEach(opt => {
+                        opt.classList.remove('selected');
+                    });
+                    document.querySelector('.color-option').classList.add('selected');
+                    document.getElementById('colorCode').value = '#1e293b';
+                    document.getElementById('imagePreview').style.display = 'none';
+                    updatePreview();
+                }, 100);
+                
+            } catch (error) {
+                console.error('Error saving to localStorage:', error);
+                alert('Error saving vehicle. Please try again.');
+            }
+        });
+        
+     
+        document.getElementById('resetForm').addEventListener('click', function() {
+            if (confirm('Are you sure you want to reset the form? All entered data will be lost.')) {
                 document.getElementById('vehicleForm').reset();
-                // 重置颜色选择器
+       
                 document.querySelectorAll('.color-option').forEach(opt => {
                     opt.classList.remove('selected');
                 });
                 document.querySelector('.color-option').classList.add('selected');
                 document.getElementById('colorCode').value = '#1e293b';
-                imagePreview.style.display = 'none';
+                document.getElementById('imagePreview').style.display = 'none';
                 updatePreview();
-            }, 100);
+            }
         });
-        
-        // 重置表单
-        document.getElementById('resetForm').addEventListener('click', function() {
-            document.getElementById('vehicleForm').reset();
-            // 重置颜色选择器
-            document.querySelectorAll('.color-option').forEach(opt => {
-                opt.classList.remove('selected');
-            });
-            document.querySelector('.color-option').classList.add('selected');
-            document.getElementById('colorCode').value = '#1e293b';
-            imagePreview.style.display = 'none';
-            updatePreview();
-        });
-        
-        // 导航按钮活动状态管理
+       
         function setupNavigation() {
             const navButtons = document.querySelectorAll('.nav-button');
+            const currentPage = window.location.pathname.split('/').pop() || 'upload.html';
             
             navButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                    // 移除active类从所有按钮
-                    navButtons.forEach(btn => btn.classList.remove('active'));
-                    // 添加active类到点击的按钮
-                    this.classList.add('active');
-                });
+                if (button.getAttribute('href') === currentPage) {
+                    button.classList.add('active');
+                } else {
+                    button.classList.remove('active');
+                }
             });
         }
         
-        // 初始化
+        function debugLocalStorage() {
+            try {
+                const uploadedCars = JSON.parse(localStorage.getItem('uploadedCars') || '[]');
+                console.log('=== DEBUG LOCALSTORAGE ===');
+                console.log('Uploaded cars:', uploadedCars);
+                console.log('Number of uploaded cars:', uploadedCars.length);
+                if (uploadedCars.length > 0) {
+                    console.log('Latest uploaded car:', uploadedCars[uploadedCars.length - 1]);
+                }
+                console.log('Next available ID:', getNextCarId());
+                console.log('=== END DEBUG ===');
+            } catch (error) {
+                console.error('Debug error:', error);
+            }
+        }
+        
+      
         document.addEventListener('DOMContentLoaded', function() {
-            // 设置默认选中第一个颜色
+            console.log('Upload page loaded');
+        
             document.querySelector('.color-option').classList.add('selected');
             
-            // 初始化预览
+           
+            debugLocalStorage();
+            
+            
             updatePreview();
             
-            // 初始化导航按钮
+          
             setupNavigation();
+            
+            if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+                const testBtn = document.createElement('button');
+                testBtn.textContent = 'Fill Sample Data (Test)';
+                testBtn.style.position = 'fixed';
+                testBtn.style.bottom = '20px';
+                testBtn.style.left = '20px';
+                testBtn.style.padding = '10px';
+                testBtn.style.backgroundColor = '#3b82f6';
+                testBtn.style.color = 'white';
+                testBtn.style.border = 'none';
+                testBtn.style.borderRadius = '5px';
+                testBtn.style.cursor = 'pointer';
+                testBtn.style.zIndex = '1000';
+                testBtn.addEventListener('click', function() {
+                    document.getElementById('brand').value = 'bmw';
+                    document.getElementById('model').value = 'M3 Competition';
+                    document.getElementById('year').value = '2023';
+                    document.getElementById('trim').value = 'Competition xDrive';
+                    document.getElementById('price').value = '78900';
+                    document.getElementById('mileage').value = '8,200 mi';
+                    document.getElementById('drivetrain').value = 'AWD';
+                    document.getElementById('color').value = 'Brooklyn Gray';
+                    document.getElementById('location').value = 'Miami, FL';
+                    document.getElementById('imageUrl').value = 'https://images.unsplash.com/photo-1555215695-3004980ad54e?q=80&w=2670&auto=format&fit=crop';
+                    document.getElementById('transmission').value = 'automatic';
+                    document.getElementById('engine').value = '3.0L Twin-Turbo I6';
+                    document.getElementById('fuelType').value = 'petrol';
+                    document.getElementById('description').value = 'Fully loaded BMW M3 Competition with carbon fiber package, executive package, and premium sound system. Perfect condition, one owner.';
+                    updatePreview();
+                });
+                document.body.appendChild(testBtn);
+                
+                const clearBtn = document.createElement('button');
+                clearBtn.textContent = 'Clear All Uploads (Test)';
+                clearBtn.style.position = 'fixed';
+                clearBtn.style.bottom = '60px';
+                clearBtn.style.left = '20px';
+                clearBtn.style.padding = '10px';
+                clearBtn.style.backgroundColor = '#ef4444';
+                clearBtn.style.color = 'white';
+                clearBtn.style.border = 'none';
+                clearBtn.style.borderRadius = '5px';
+                clearBtn.style.cursor = 'pointer';
+                clearBtn.style.zIndex = '1000';
+                clearBtn.addEventListener('click', function() {
+                    if (confirm('Clear all uploaded vehicles?')) {
+                        localStorage.removeItem('uploadedCars');
+                        alert('All uploaded vehicles cleared!');
+                        location.reload();
+                    }
+                });
+                document.body.appendChild(clearBtn);
+            }
         });
     </script>
 </body>
