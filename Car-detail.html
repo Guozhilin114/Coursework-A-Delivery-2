@@ -618,7 +618,7 @@
         </div>
 
         <div class="action-area">
-            <button class="btn-contact" id="btn-contact">Contact Seller</button>
+            <button class="btn-contact" id="btn-contact">Seller Details</button>
             <button class="btn-compare" id="btn-compare">Compare</button>
         </div>
     </main>
@@ -648,9 +648,10 @@
     </div>
 
     <script>
-        // 1. Car Database (Updated with 9 vehicles)
+        // 1. Car Database (Updated to match search.html with 9 vehicles)
         const carDatabase = {
             "1": {
+                sellerUrl: "seller_profile_sophia.html",
                 condition: "Premium Certified Used",
                 title: "2024 Toyota Camry XSE",
                 price: "$32,450",
@@ -665,6 +666,7 @@
                 heroImg: "https://images.unsplash.com/photo-1621007947382-bb3c3994e3fb?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
             },
             "2": {
+                sellerUrl: "seller_profile_ethan.html",
                 condition: "Like-New Executive Lease",
                 title: "2023 BMW M4 Competition",
                 price: "$82,900",
@@ -679,6 +681,7 @@
                 heroImg: "https://images.unsplash.com/photo-1617531653332-bd46c24f2068?q=80&w=2670&auto=format&fit=crop"
             },
             "3": {
+                sellerUrl: "seller_profile_sophia.html",
                 condition: "Executive Pre-Owned",
                 title: "2024 Mercedes-Benz E-Class",
                 price: "$68,400",
@@ -693,6 +696,7 @@
                 heroImg: "https://images.unsplash.com/photo-1765446925539-ddd50bed8692?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
             },
             "4": {
+                sellerUrl: "seller_profile_sophia.html",
                 condition: "Premium Certified",
                 title: "2024 Audi A6 Premium Plus",
                 price: "$59,900",
@@ -707,6 +711,7 @@
                 heroImg: "https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
             },
             "5": {
+                sellerUrl: "seller_profile_ethan.html",
                 condition: "Electric Performance",
                 title: "2023 Tesla Model 3",
                 price: "$42,900",
@@ -721,6 +726,7 @@
                 heroImg: "https://images.unsplash.com/photo-1560958089-b8a1929cea89?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
             },
             "6": {
+                sellerUrl: "seller_profile_ethan.html",
                 condition: "Luxury SUV Pre-Owned",
                 title: "2024 BMW X5 xDrive40i",
                 price: "$72,500",
@@ -735,6 +741,7 @@
                 heroImg: "https://platform.cstatic-images.com/xxlarge/in/v2/a23f94d0-edfa-4d32-9d3b-8b8e411fd24c/2bab9e64-3084-4836-8098-351d911ebf36/88scNM3TpILVR_OnuFUOnTdeZiE.jpg"
             },
             "7": {
+                sellerUrl: "seller_profile_marcus.html",
                 condition: "Sports Performance",
                 title: "2023 Ford Mustang GT",
                 price: "$48,200",
@@ -749,6 +756,7 @@
                 heroImg: "https://images.unsplash.com/photo-1680367297179-7b4b2bfa9346?q=80&w=2231&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
             },
             "8": {
+                sellerUrl: "seller_profile_marcus.html",
                 condition: "Track Ready",
                 title: "2024 Honda Civic Type R",
                 price: "$44,800",
@@ -763,7 +771,8 @@
                 heroImg: "https://bringatrailer.com/wp-content/uploads/2024/01/2024_honda_civic-type-r_2024_honda_civic-type-r_924af67e-0374-446a-8a70-5921a7f4ff32-l0vkc7-23989-32728.jpg?w=2038"
             },
             "9": {
-                condition: "Exotic Electric",
+                sellerUrl: "seller_profile_ethan.html",
+                condition: "Electric Performance",
                 title: "2022 Tesla Roadster",
                 price: "$65,800",
                 brand: "Tesla Prestige",
@@ -772,7 +781,7 @@
                 colorGradient: "linear-gradient(145deg, #f1f5f9, #94a3b8)",
                 mileage: "18,400 mi",
                 location: "Phoenix, AZ",
-                drivetrain: "AWD",
+                drivetrain: "T",
                 description: "Hypercar performance with zero emissions. Mind-bending acceleration, sleek aerodynamic design, and advanced Tesla technology. A rare find in this stunning Glacier White finish.",
                 heroImg: "https://images.unsplash.com/photo-1617788138017-80ad40651399?q=80&w=2670&auto=format&fit=crop"
             }
@@ -814,11 +823,12 @@
 
             // --- Features Implementation ---
 
-            // Toast Notification
             document.getElementById('btn-contact').addEventListener('click', () => {
-                const toast = document.getElementById('toast');
-                toast.classList.add('show');
-                setTimeout(() => { toast.classList.remove('show'); }, 3000);
+                if (activeCar && activeCar.sellerUrl) {
+                    window.location.href = activeCar.sellerUrl;
+                } else {
+                    console.log("Seller information not available.");
+                }
             });
 
             // Compare Overlay Variables
