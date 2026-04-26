@@ -71,13 +71,12 @@
         }
 
         .logo-icon {
-            width: 40px; /* 根据需要调整宽度 */
-            height: auto; /* 保持宽高比 */
-            vertical-align: middle; /* 与文字垂直居中 */
-            margin-right: 8px; /* 与文字间距 */
+            width: 40px; 
+            height: auto; 
+            vertical-align: middle; 
+            margin-right: 8px; 
         }
 
-        /* 右上角导航按钮 */
         .top-nav {
             display: flex;
             align-items: center;
@@ -111,11 +110,10 @@
             left: 0;
             right: 0;
             height: 2px;
-            background-color: #3b82f6; /* 蓝绿色下划线 */
+            background-color: #3b82f6; 
             border-radius: 1px;
         }
 
-        /* 搜索栏向左移动 */
         .search-bar {
             flex-grow: 1;
             max-width: 500px;
@@ -149,7 +147,6 @@
             color: var(--light-text-secondary);
         }
 
-        /* 新增车辆标签 */
         .new-badge {
             position: absolute;
             top: 15px;
@@ -507,14 +504,13 @@
                     <!-- <i class="fas fa-car logo-icon"></i> -->
                     OMNICARS
                 </a>
-                
-                <!-- 搜索栏向左移动 -->
+           
                 <div class="search-bar">
                     <i class="fas fa-search search-icon"></i>
                     <input type="text" class="search-input" placeholder="Search by brand, model, or features...">
                 </div>
                 
-                <!-- 右上角导航按钮，样式匹配图1 -->
+         
                 <div class="top-nav">
                     <a href="HomePage.html" class="nav-button">Home</a>
                     <a href="search.html" class="nav-button active">Search</a>
@@ -610,7 +606,7 @@
     </footer>
 
     <script>
-        // 原始车辆数据
+
         const carsData = [
             {
                 id: 1,
@@ -738,21 +734,27 @@
                 colorCode: "#f1f5f9",
                 image: "https://images.unsplash.com/photo-1617788138017-80ad40651399?q=80&w=2670&auto=format&fit=crop"
             },
-
         ];
 
         // 从localStorage获取上传的车辆数据
         function getUploadedCars() {
-            return JSON.parse(localStorage.getItem('uploadedCars') || '[]');
+            try {
+                const uploadedCars = JSON.parse(localStorage.getItem('uploadedCars') || '[]');
+                console.log('Uploaded cars from localStorage:', uploadedCars);
+                return uploadedCars;
+            } catch (error) {
+                console.error('Error reading uploaded cars from localStorage:', error);
+                return [];
+            }
         }
 
-        // 获取所有车辆数据（原始+上传的）
         function getAllCars() {
             const uploadedCars = getUploadedCars();
-            return [...carsData, ...uploadedCars];
+            const allCars = [...carsData, ...uploadedCars];
+            console.log('Total cars:', allCars.length, 'Uploaded cars:', uploadedCars.length);
+            return allCars;
         }
 
-        // 初始化车辆网格
         function renderCars(cars) {
             const carsGrid = document.getElementById('cars-grid');
             carsGrid.innerHTML = '';
@@ -767,59 +769,70 @@
                 `;
                 return;
             }
+
+            const sortedCars = [...cars].sort((a, b) => {
+     
+                if (a.id > 10 && b.id <= 9) return -1;
+                if (a.id <= 10 && b.id > 9) return 1;
+                return b.id - a.id; 
+            });
             
-            cars.forEach(car => {
+            sortedCars.forEach(car => {
                 const carElement = document.createElement('div');
                 carElement.className = 'car-card';
+                carElement.dataset.id = car.id; // 添加ID属性
                 carElement.dataset.brand = car.brand;
-                carElement.dataset.price = car.price.replace('$', '').replace(',', '');
+                carElement.dataset.price = car.price ? parseInt(car.price.replace('$', '').replace(/,/g, '')) : 0;
                 carElement.dataset.year = car.year;
-                carElement.dataset.drivetrain = car.drivetrain.toLowerCase();
+                carElement.dataset.drivetrain = car.drivetrain ? car.drivetrain.toLowerCase() : '';
                 
-                // 检查是否为上传的车辆
-                const isUploaded = car.id > 10; // 上传的车辆ID大于10
+     
+                const isUploaded = car.id > 9; 
                 
                 carElement.innerHTML = `
-                    ${isUploaded ? '<div class="new-badge"><i class="fas fa-star"></i> NEW</div>' : ''}
+                    ${isUploaded ? '<div class="new-badge"><i class="fas fa-upload"></i> UPLOADED</div>' : ''}
                     <div class="brand-badge">
                         <i class="fas fa-car"></i>
-                        ${car.brand.charAt(0).toUpperCase() + car.brand.slice(1)}
+                        ${car.brand ? car.brand.charAt(0).toUpperCase() + car.brand.slice(1) : 'Other'}
                     </div>
                     <div class="car-image-container">
-                        <img src="${car.image}" alt="${car.name}" class="car-image">
+                        <img src="${car.image || 'https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'}" 
+                             alt="${car.name || 'Vehicle Image'}" 
+                             class="car-image" 
+                             onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80';">
                     </div>
-                    <div class="car-color-bar" style="background-color: ${car.colorCode};"></div>
+                    <div class="car-color-bar" style="background-color: ${car.colorCode || '#1e293b'};"></div>
                     <div class="car-info">
                         <div class="car-header">
-                            <h3 class="car-title">${car.name}</h3>
-                            <div class="car-price">${car.price}</div>
+                            <h3 class="car-title">${car.name || 'New Vehicle'}</h3>
+                            <div class="car-price">${car.price || '$0'}</div>
                         </div>
                         <div class="car-tags">
                             <div class="car-tag">
                                 <i class="fas fa-calendar-alt"></i>
-                                ${car.year}
+                                ${car.year || 'N/A'}
                             </div>
                             <div class="car-tag">
                                 <i class="fas fa-tachometer-alt"></i>
-                                ${car.mileage}
+                                ${car.mileage || '0 mi'}
                             </div>
                             <div class="car-tag">
                                 <i class="fas fa-map-marker-alt"></i>
-                                ${car.location}
+                                ${car.location || 'Location N/A'}
                             </div>
                         </div>
                         <div class="car-details">
                             <div class="detail-item">
                                 <span class="detail-label">Drivetrain</span>
-                                <span class="detail-value">${car.drivetrain}</span>
+                                <span class="detail-value">${car.drivetrain || 'N/A'}</span>
                             </div>
                             <div class="detail-item">
                                 <span class="detail-label">Trim</span>
-                                <span class="detail-value">${car.trim}</span>
+                                <span class="detail-value">${car.trim || 'Standard'}</span>
                             </div>
                             <div class="detail-item">
                                 <span class="detail-label">Color</span>
-                                <span class="detail-value">${car.color}</span>
+                                <span class="detail-value">${car.color || 'N/A'}</span>
                             </div>
                             <div class="detail-item">
                                 <span class="detail-label">Stock #</span>
@@ -828,18 +841,16 @@
                         </div>
                     </div>
                 `;
-                
-                // 为车辆图片容器添加点击事件
+        
                 const imageContainer = carElement.querySelector('.car-image-container');
                 imageContainer.addEventListener('click', function() {
-                    // 跳转到Car-detail.html，并传递车辆ID参数
+                  
                     window.location.href = `Car-detail.html?id=${car.id}`;
                 });
                 
-                // 为整个卡片添加点击事件（可选的，如果你想让整个卡片都可点击）
+          
                 carElement.addEventListener('click', function(e) {
-                    // 如果点击的不是图片容器，也跳转到详情页
-                    if (!e.target.closest('.car-image-container')) {
+                    if (!e.target.closest('.car-image-container') && !e.target.closest('.new-badge')) {
                         window.location.href = `Car-detail.html?id=${car.id}`;
                     }
                 });
@@ -848,7 +859,7 @@
             });
         }
 
-        // 筛选功能
+  
         function filterCars() {
             const brandFilter = document.getElementById('brand-filter').value;
             const priceFilter = document.getElementById('price-filter').value;
@@ -858,62 +869,70 @@
             const allCars = getAllCars();
             
             const filteredCars = allCars.filter(car => {
-                // 品牌筛选
+            
                 if (brandFilter !== 'all' && car.brand !== brandFilter) {
                     return false;
                 }
                 
-                // 价格筛选
-                const price = parseInt(car.price.replace('$', '').replace(',', ''));
-                if (priceFilter !== 'all') {
-                    if (priceFilter === 'under-40k' && price >= 40000) return false;
-                    if (priceFilter === '40k-70k' && (price < 40000 || price > 70000)) return false;
-                    if (priceFilter === '70k-100k' && (price < 70000 || price > 100000)) return false;
-                    if (priceFilter === 'over-100k' && price <= 100000) return false;
+             
+                if (car.price) {
+                    const priceStr = car.price.replace('$', '').replace(/,/g, '');
+                    const price = parseInt(priceStr) || 0;
+                    
+                    if (priceFilter !== 'all') {
+                        if (priceFilter === 'under-40k' && price >= 40000) return false;
+                        if (priceFilter === '40k-70k' && (price < 40000 || price > 70000)) return false;
+                        if (priceFilter === '70k-100k' && (price < 70000 || price > 100000)) return false;
+                        if (priceFilter === 'over-100k' && price <= 100000) return false;
+                    }
                 }
                 
-                // 年份筛选
+         
                 if (yearFilter !== 'all' && car.year !== yearFilter) {
                     return false;
                 }
                 
-                // 驱动系统筛选
-                if (drivetrainFilter !== 'all' && car.drivetrain.toLowerCase() !== drivetrainFilter.toLowerCase()) {
+         
+                if (drivetrainFilter !== 'all' && car.drivetrain && 
+                    car.drivetrain.toLowerCase() !== drivetrainFilter.toLowerCase()) {
                     return false;
                 }
                 
                 return true;
             });
             
+            console.log(`Filtered cars: ${filteredCars.length} out of ${allCars.length}`);
             renderCars(filteredCars);
         }
 
-        // 搜索功能
         function setupSearch() {
             const searchInput = document.querySelector('.search-input');
             searchInput.addEventListener('input', function() {
                 const searchTerm = this.value.toLowerCase();
                 
-                if (searchTerm.length < 2) {
-                    // 如果搜索词太短，显示所有车辆
+                if (searchTerm.length === 0) {
+                  
                     renderCars(getAllCars());
                     return;
                 }
                 
                 const allCars = getAllCars();
                 const filteredCars = allCars.filter(car => {
-                    return car.name.toLowerCase().includes(searchTerm) ||
-                           (car.trim && car.trim.toLowerCase().includes(searchTerm)) ||
-                           (car.color && car.color.toLowerCase().includes(searchTerm)) ||
-                           (car.location && car.location.toLowerCase().includes(searchTerm)) ||
-                           (car.brand && car.brand.toLowerCase().includes(searchTerm));
+                    return (
+                        (car.name && car.name.toLowerCase().includes(searchTerm)) ||
+                        (car.trim && car.trim.toLowerCase().includes(searchTerm)) ||
+                        (car.color && car.color.toLowerCase().includes(searchTerm)) ||
+                        (car.location && car.location.toLowerCase().includes(searchTerm)) ||
+                        (car.brand && car.brand.toLowerCase().includes(searchTerm)) ||
+                        (car.model && car.model && car.model.toLowerCase().includes(searchTerm))
+                    );
                 });
                 
                 renderCars(filteredCars);
             });
         }
 
-        // 卡片悬停图片缩放效果
+    
         function setupCardHoverEffects() {
             document.addEventListener('mouseover', function(e) {
                 const card = e.target.closest('.car-card');
@@ -922,7 +941,7 @@
                 const img = card.querySelector('.car-image');
                 if (!img) return;
                 
-                // 添加缩放效果
+         
                 img.style.transform = 'scale(1.05)';
             });
             
@@ -933,34 +952,47 @@
                 const img = card.querySelector('.car-image');
                 if (!img) return;
                 
-                // 移除缩放效果
+         
                 img.style.transform = 'scale(1)';
             });
         }
 
-        // 导航按钮活动状态管理
         function setupNavigation() {
             const navButtons = document.querySelectorAll('.nav-button');
+            const currentPage = window.location.pathname.split('/').pop() || 'search.html';
             
             navButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                    // 移除active类从所有按钮
-                    navButtons.forEach(btn => btn.classList.remove('active'));
-                    // 添加active类到点击的按钮
-                    this.classList.add('active');
-                });
+                if (button.getAttribute('href') === currentPage) {
+                    button.classList.add('active');
+                } else {
+                    button.classList.remove('active');
+                }
             });
         }
 
-        // 初始化当页面加载时
+        function debugLocalStorage() {
+            const uploadedCars = JSON.parse(localStorage.getItem('uploadedCars') || '[]');
+            console.log('=== DEBUG LOCALSTORAGE ===');
+            console.log('Uploaded cars:', uploadedCars);
+            console.log('Number of uploaded cars:', uploadedCars.length);
+            if (uploadedCars.length > 0) {
+                console.log('Latest uploaded car:', uploadedCars[uploadedCars.length - 1]);
+            }
+            console.log('=== END DEBUG ===');
+        }
+
+    
         document.addEventListener('DOMContentLoaded', function() {
-            // 初始渲染所有车辆
-            renderCars(getAllCars());
+     
+            debugLocalStorage();
             
-            // 设置筛选功能
+     
+            const allCars = getAllCars();
+            console.log('Initial render with', allCars.length, 'cars');
+            renderCars(allCars);
+   
             document.getElementById('apply-filters').addEventListener('click', filterCars);
-            
-            // 设置重置筛选功能
+    
             document.getElementById('reset-filters').addEventListener('click', function() {
                 document.getElementById('brand-filter').value = 'all';
                 document.getElementById('price-filter').value = 'all';
@@ -970,20 +1002,41 @@
                 renderCars(getAllCars());
             });
             
-            // 设置搜索功能
+
             setupSearch();
             
-            // 设置卡片悬停效果
+  
             setupCardHoverEffects();
-            
-            // 设置导航按钮
+
             setupNavigation();
-            
-            // 添加筛选更改时自动筛选
+
             const filterSelects = document.querySelectorAll('.filter-select');
             filterSelects.forEach(select => {
                 select.addEventListener('change', filterCars);
             });
+
+            if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+                const debugBtn = document.createElement('button');
+                debugBtn.textContent = 'Clear Uploaded Cars (Debug)';
+                debugBtn.style.position = 'fixed';
+                debugBtn.style.bottom = '20px';
+                debugBtn.style.right = '20px';
+                debugBtn.style.padding = '10px';
+                debugBtn.style.backgroundColor = '#ef4444';
+                debugBtn.style.color = 'white';
+                debugBtn.style.border = 'none';
+                debugBtn.style.borderRadius = '5px';
+                debugBtn.style.cursor = 'pointer';
+                debugBtn.style.zIndex = '1000';
+                debugBtn.addEventListener('click', function() {
+                    if (confirm('Clear all uploaded cars?')) {
+                        localStorage.removeItem('uploadedCars');
+                        alert('Uploaded cars cleared!');
+                        location.reload();
+                    }
+                });
+                document.body.appendChild(debugBtn);
+            }
         });
     </script>
 </body>
